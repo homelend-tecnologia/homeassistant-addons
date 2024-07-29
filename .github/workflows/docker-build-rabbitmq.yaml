@@ -1,4 +1,4 @@
-﻿name: RabbitMQ - Build and Publish Docker Image for ARM64
+name: RabbitMQ - Build and Publish Docker Image for ARM64
 
 on:
   push:
@@ -40,13 +40,13 @@ jobs:
 
     - name: Extract metadata for Docker Buildx
       id: meta
-      uses: docker/metadata-action@v4
+      uses: docker/metadata-action@v5
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         tags: type=raw,value=${{ env.APP_VERSION }}
 
     - name: Build and Push Docker Image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: ./RabbitMQ
         file: ./RabbitMQ/Dockerfile
