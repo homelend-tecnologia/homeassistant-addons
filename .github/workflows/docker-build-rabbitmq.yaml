@@ -1,0 +1,56 @@
+﻿name: RabbitMQ - Build and Publish Docker Image for ARM64
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'RabbitMQ/**'
+      - '/.github/workflows/docker-build-rabbitmq.yaml'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}-rabbitmq
+  APP_VERSION: "v1.0.1" # não esquecer de atualizar a versão no arquivo RabbitMQ/config.yaml também (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Check Out Repo
+      uses: actions/checkout@v4
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata for Docker Buildx
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: type=raw,value=${{ env.APP_VERSION }}
+
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./RabbitMQ
+        file: ./RabbitMQ/Dockerfile
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        platforms: linux/arm64,linux/amd64

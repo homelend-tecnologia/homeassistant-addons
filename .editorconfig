@@ -1,0 +1,14 @@
+root = true
+
+# All files
+[*]
+indent_style = space
+charset = utf-8
+
+# Xml files
+[*.xml]
+indent_size = 2
+
+# Yaml files
+[*.{yaml,yml}]
+indent_size = 2
