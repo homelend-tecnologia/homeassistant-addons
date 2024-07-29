@@ -1,7 +1,7 @@
 name: "Homelend RabbitMQ"
 slug: "homelend-rabbitmq"
 description: "Servidor RabbitMQ como Add-On do Home Assistant"
-version: "v1.0.2" #não esquecer de atualizar a versão no arquivo .github/workflows/docker-build-rabbitmq.yaml tamb�m (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
+version: "v1.0.3" #não esquecer de atualizar a versão no arquivo .github/workflows/docker-build-rabbitmq.yaml tamb�m (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
 url: "https://github.com/homelend-tecnologia/homeassistant-addons"
 arch:
   # - armhf
@@ -43,5 +43,5 @@ ports:
 init: false
 startup: application
 boot: auto
-image: "ghcr.io/homelend-tecnologia/homeassistant-addon-rabbitmq"
+image: "ghcr.io/homelend-tecnologia/homeassistant-addons-rabbitmq"
 #webui: "http://[HOST]:[PORT:8080]"
