@@ -52,10 +52,10 @@ jobs:
             fi
           done
 
-          changed=$(echo "${changed_addons[@]}" | rev | cut -c 2- | rev)
-          if [[ -n $changed ]]; then
+          changed=$(echo ${changed_addons[@]} | rev | cut -c 2- | rev)
+          if [[ -n ${changed} ]]; then
             echo "Changed add-ons: $changed";
-            echo "changed=true" >> $GITHUB_OUTPUT";
+            echo "changed=true" >> "$GITHUB_OUTPUT";
             echo "addons=[$changed]" >> "$GITHUB_OUTPUT";
           else
             echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
