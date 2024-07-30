@@ -29,20 +29,18 @@ panel_icon: mdi:home-assistant
 panel_admin: false
 panel_title: "RabbitMQ"
 
-options:
-  ingress_port: 15672
-schema:
-  ingress_port:
-    - int
-
-
 
 #host_network: true
 host_network: false
 ingress: true
 #ingress_port: ${rabbitmq_management_port}
-ingress_port: {ingress_port}
+ingress_port: 15672
 ingress_entry: "/"
+
+schema:
+  port_5672:
+    type: integer
+    description: "Porta para conexão AMQP (default: 5672)"
 
 ports:
   5672/tcp: 5672
