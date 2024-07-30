@@ -1,6 +1,6 @@
 ---
-network2:
-  56720/tcp: "AMQP port (default: 5672)"
+network:
+  5672/tcp: "AMQP port (default: 5672)"
   15672/tcp: "RabbitMQ Management port (default: 15672)"
-  1883/tcp: "MQTT port (default: 1883)"
+  1883/tcp: "MQTT port (default: 1883) - Warning: The port 1883 is used by the Mosquitto add-on. If you enable this port, you will need to disable the Mosquitto add-on."
     

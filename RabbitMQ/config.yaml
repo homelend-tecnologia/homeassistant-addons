@@ -1,7 +1,7 @@
 name: "Homelend RabbitMQ"
 slug: "homelend-rabbitmq"
 description: "Servidor RabbitMQ como Add-On do Home Assistant"
-version: "v1.0.10" #não esquecer de atualizar a versão no arquivo .github/workflows/docker-build-rabbitmq.yaml também (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
+version: "v1.0.11" #não esquecer de atualizar a versão no arquivo .github/workflows/docker-build-rabbitmq.yaml também (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
 url: "https://github.com/homelend-tecnologia/homeassistant-addons"
 icon: icon.png
 arch:
@@ -33,18 +33,8 @@ panel_title: "RabbitMQ"
 #host_network: true
 host_network: false
 ingress: true
-#ingress_port: ${rabbitmq_management_port}
 ingress_port: 15672
 ingress_entry: "/"
-
-schema:
-  5672/tcp: int
-  15672/tcp: int
-  1883/tcp: int
-descrition:
-  5672/tcp: "Porta de comunicação AMQP (default: 5672)"
-  15672/tcp: "Porta de gerenciamento do RabbitMQ (default: 15672)"
-  1883/tcp: "Porta de comunicação MQTT (default: 1883)"
 
 ports:
   5672/tcp: 5672
