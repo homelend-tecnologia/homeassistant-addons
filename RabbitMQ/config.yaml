@@ -38,7 +38,7 @@ options:
 host_network: false
 ingress: true
 #ingress_port: ${rabbitmq_management_port}
-ingress_port: {options.ingress_port}
+ingress_port: {ingress_port}
 ingress_entry: "/"
 
 ports:
