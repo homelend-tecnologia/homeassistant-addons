@@ -1,5 +1,9 @@
 # Registro de Alterações
 
+## [1.0.7] - 2024-07-29]
+### Mudanças
+* Portas configuráveis no Home Assistant
+
 ## [1.0.6] - 2024-07-29]
 ### Mudanças
 * Portas configuráveis no Home Assistant
