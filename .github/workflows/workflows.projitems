@@ -9,7 +9,6 @@
     <Import_RootNamespace>workflows</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)docker-build-rabbitmq.yaml" />
-    <None Include="$(MSBuildThisFileDirectory)manually-builder.yaml" />
+    <None Include="$(MSBuildThisFileDirectory)addons-builder.yaml" />
   </ItemGroup>
 </Project>

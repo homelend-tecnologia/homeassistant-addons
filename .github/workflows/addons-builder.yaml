@@ -1,4 +1,4 @@
-name: Manually Triggered Workflow
+name: Build Add-ons
 
 env:
   REGISTRY: ghcr.io
@@ -6,11 +6,11 @@ env:
   MONITORED_FILES: "apparmor.txt build.yaml config yaml Dockerfile data rootfs"
 
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
   pull_request:
     branches: ["main"]
-  push:
-    branches: ["main","develop"]  ## Develop only for testing purposes
+  # push:
+  #   branches: ["main","develop"]  ## Develop only for testing purposes
 
 jobs:
   init:
@@ -110,33 +110,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Convert repository name to lowercase
+        id: convert_repo_to_lower
+        run: echo "LOWER_REPO_NAME=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Convert addon name to lowercase
         id: convert_to_lower
-        run: echo "LOWER_ADDON=$(echo ${{ matrix.addon }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        run: echo "LOWER_ADDON_NAME=$(echo ${{ matrix.addon }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      - name: Remove quotes from version
+      - name: Remove quotes from version variable
         id: clean_version
         run: echo "VERSION=$(echo ${{ steps.info.outputs.version }} | tr -d '\"')" >> $GITHUB_ENV
 
-
       - name: Build ${{ matrix.addon }} add-on
-        #if: matrix.arch == 'aarch64'
         uses: docker/build-push-action@v6
         with:
           context: ./${{ matrix.addon }}
           file: ./${{ matrix.addon }}/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-${{ matrix.arch }}:${{ env.VERSION }}
+          tags: ${{ env.REGISTRY }}/${{ env.LOWER_REPO_NAME }}-${{ env.LOWER_ADDON_NAME }}-${{ matrix.arch }}:${{ env.VERSION }}
           platforms: linux/${{ matrix.arch }}
           build-args: ${{ env.BUILD_ARGS }}
 
-      # - name: Build ${{ matrix.addon }} add-on
-      #   if: matrix.arch == 'amd64'
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: ./${{ matrix.addon }}
-      #     file: ./${{ matrix.addon }}/Dockerfile
-      #     push: true
-      #     tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-amd64:${{ env.VERSION }}
-      #     platforms: linux/${{ matrix.arch }}
-      #     build-args: ${{ env.BUILD_ARGS }}

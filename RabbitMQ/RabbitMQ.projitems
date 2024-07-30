@@ -14,6 +14,7 @@
     <None Include="$(MSBuildThisFileDirectory)config.yaml" />
     <None Include="$(MSBuildThisFileDirectory)configs\enabled_plugins" />
     <None Include="$(MSBuildThisFileDirectory)Dockerfile" />
+    <None Include="$(MSBuildThisFileDirectory)DOCS.md" />
     <None Include="$(MSBuildThisFileDirectory)README.md" />
     <None Include="$(MSBuildThisFileDirectory)start.sh" />
     <None Include="$(MSBuildThisFileDirectory)translations\en.yaml" />
