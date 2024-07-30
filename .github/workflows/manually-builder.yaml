@@ -34,7 +34,7 @@ jobs:
           for addon in $(find ./ -name "config.yaml" | cut -d'/' -f2 | sort -u); do
             addons+=("$addon")
           done
-          echo "addons=${addons[@]}" >> $GITHUB_OUTPUT"
+          echo "addons=${addons[@]}" >> "$GITHUB_OUTPUT"
 
       - name: Get changed add-ons
         id: changed_addons
