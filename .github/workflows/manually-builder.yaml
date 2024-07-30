@@ -1,6 +1,7 @@
 name: Manually Triggered Workflow
 
 env:
+  REGISTRY: ghcr.io
   BUILD_ARGS: "--test"
   MONITORED_FILES: "apparmor.txt build.yaml config yaml Dockerfile data rootfs"
 
