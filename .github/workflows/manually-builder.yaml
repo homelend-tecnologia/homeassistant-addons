@@ -79,6 +79,11 @@ jobs:
             echo "No add-ons found.";
           fi
 
+      - name: Debug output
+        run: |
+          echo "Changed: ${{ needs.init.outputs.changed }}"
+
+
 
   build:
     needs: init
