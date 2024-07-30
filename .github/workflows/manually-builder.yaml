@@ -112,7 +112,7 @@ jobs:
 
       - name: Convert addon name to lowercase
         id: convert_to_lower
-        run: echo "lower_addon=${{ matrix.addon,, }}" >> $GITHUB_ENV
+        run: echo "LOWER_ADDON=$(echo ${{ matrix.addon }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Build ${{ matrix.addon }} add-on
         #if: steps.check.outputs.build_arch == 'true' #&& matrix.arch == 'aarch64'
