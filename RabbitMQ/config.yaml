@@ -31,7 +31,6 @@ panel_icon: mdi:home-assistant
 panel_admin: false
 panel_title: "RabbitMQ"
 
-
 #host_network: true
 host_network: false
 ingress: true
