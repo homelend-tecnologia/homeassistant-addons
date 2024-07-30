@@ -61,6 +61,25 @@ jobs:
             echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
           fi
 
+      - name: Include all add-ons ## Uses only if you want to build all add-ons
+        if: 'true'                ## change to false if you want to build only changed add-ons
+        id: changed_addons
+        run: |
+          declare -a changed_addons
+          for addon in ${{ steps.addons.outputs.addons }}; do
+            changed_addons+=("\"${addon}\",")
+          done
+
+          changed=$(echo ${changed_addons[@]} | rev | cut -c 2- | rev)
+          if [[ -n ${changed} ]]; then
+            echo "All add-ons included: $changed";
+            echo "changed=true" >> "$GITHUB_OUTPUT";
+            echo "addons=[$changed]" >> "$GITHUB_OUTPUT";
+          else
+            echo "No add-ons found.";
+          fi
+
+
   build:
     needs: init
     runs-on: ubuntu-latest
@@ -79,4 +98,27 @@ jobs:
         uses: home-assistant/actions/helpers/info@master ## External action - TODO: Fork this action and use the forked version
         with:
           path: "./${{ matrix.addon }}"
+
+      - name: Check add-on
+        id: check
+        run: |
+          if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
+             echo "build_arch=true" >> "$GITHUB_OUTPUT";
+           else
+             echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build";
+          fi
+          
+      - name: Set build arguments
+        if: steps.check.outputs.build_arch == 'true'
+        run: |
+          if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
+              echo "BUILD_ARGS=--docker-hub-check" >> $GITHUB_ENV;
+          fi
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
