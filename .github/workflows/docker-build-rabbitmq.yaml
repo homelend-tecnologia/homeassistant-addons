@@ -6,11 +6,11 @@ on:
       - main
     paths:
       - 'RabbitMQ/**'
-      - '/.github/workflows/docker-build-rabbitmq.yaml'
+      - '.github/workflows/docker-build-rabbitmq.yaml'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-rabbitmq
+  IMAGE_NAME: ${{ github.repository }}-rabbitmq2
   APP_VERSION: "v1.0.14" # não esquecer de atualizar a versão no arquivo RabbitMQ/config.yaml também (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
 
 jobs:
