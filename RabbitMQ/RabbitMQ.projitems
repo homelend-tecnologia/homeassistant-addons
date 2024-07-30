@@ -10,10 +10,14 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory).dockerignore" />
+    <None Include="$(MSBuildThisFileDirectory)CHANGELOG.md" />
     <None Include="$(MSBuildThisFileDirectory)config.yaml" />
     <None Include="$(MSBuildThisFileDirectory)configs\enabled_plugins" />
     <None Include="$(MSBuildThisFileDirectory)Dockerfile" />
     <None Include="$(MSBuildThisFileDirectory)README.md" />
     <None Include="$(MSBuildThisFileDirectory)start.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)icon.png" />
   </ItemGroup>
 </Project>
