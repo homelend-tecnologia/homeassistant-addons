@@ -55,3 +55,19 @@ jobs:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.platform }}
         tags: type=raw,value=${{ env.APP_VERSION }}
 
+    # - name: Extract metadata for Docker Buildx
+    #   id: meta
+    #   uses: docker/metadata-action@v5
+    #   with:
+    #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    #     tags: type=raw,value=${{ env.APP_VERSION }}
+
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v6
+      with:
+        context: ./RabbitMQ
+        file: ./RabbitMQ/Dockerfile
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        platforms: linux/arm64,linux/amd64
