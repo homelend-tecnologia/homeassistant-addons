@@ -1,14 +1,64 @@
 name: Manually Triggered Workflow
 
+env:
+  BUILD_ARGS: "--test"
+  MONITORED_FILES: "apparmor.txt build.yaml config yaml Dockerfile data rootfs"
+
 on:
   workflow_dispatch:
+  # pull_request:
+  #   branches: ["main"]
+  # push:
+  #   branches: ["main"]
 
 jobs:
-  build:
+  init:
     runs-on: ubuntu-latest
+    name: Initialize builds
+    outputs:
+      changed_files: ${{ steps.changed_files.outputs.all }}
+      changed_addons: ${{ steps.changed_addons.outputs.addons }}
+      changed: ${{ steps.changed_addons.outputs.changed }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      
-      - name: Run a script
-        run: echo "This workflow was triggered manually!"
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed_files
+        uses: masesgroup/retrieve-changed-files@v3  ##############################################
+
+      - name: Get add-ons
+        id: addons
+        run: |
+          declare -a addons
+          for addon in $(find ./ -name "config.yaml" | cut -d'/' -f2 | sort -u); do
+            addons+=("$addon")
+          done
+          echo "addons=${addons[@]}" >> $GITHUB_OUTPUT"
+
+      - name: Get changed add-ons
+        id: changed_addons
+        run: |
+          declare -a changed_addons
+          for addon in ${{ steps.addons.outputs.addons }}; do
+            if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon ]]; then
+              for file in ${{ env.MONITORED_FILES }}; do
+                  if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon/$file ]]; then
+                    if [[ ! "${changed_addons[@]}" =~ $addon ]]; then
+                      changed_addons+=("\"${addon}\",");
+                    fi
+                  fi
+              done
+            fi
+          done
+
+          changed=$(echo "${changed_addons[@]}" | rev | cut -c 2- | rev)
+          if [[ -n $changed ]]; then
+            echo "Changed add-ons: $changed";
+            echo "changed=true" >> $GITHUB_OUTPUT";
+            echo "addons=[$changed]" >> "$GITHUB_OUTPUT";
+          else
+            echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
+          fi
+
+
