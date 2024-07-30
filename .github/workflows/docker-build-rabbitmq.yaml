@@ -1,12 +1,19 @@
 name: RabbitMQ - Build and Publish Docker Image for ARM64
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'RabbitMQ/**'
-      - '.github/workflows/docker-build-rabbitmq.yaml'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build (develop)'
+        required: true
+        default: 'develop'
+
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - 'RabbitMQ/**'
+#       - '.github/workflows/docker-build-rabbitmq.yaml'
 
 env:
   REGISTRY: ghcr.io
