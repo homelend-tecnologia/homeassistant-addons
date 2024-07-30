@@ -45,8 +45,8 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-        tags: type=raw,value=${{ env.APP_VERSION }},type=platform,value=${{ matrix.platform }}
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.platform }}
+        tags: type=raw,value=${{ env.APP_VERSION }}
 
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v6
