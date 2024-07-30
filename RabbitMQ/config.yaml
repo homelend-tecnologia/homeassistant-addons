@@ -42,17 +42,10 @@ ingress_port: {options.ingress_port}
 ingress_entry: "/"
 
 ports:
-  5672/tcp: 
-    port: 5672
-    name: "AMQP"
-
-  15672/tcp:
-    port: 15672
-    name: "Management"
+  5672/tcp: 5672
+  15672/tcp: 15672
   # altera a porta para 1885 para evitar conflito com o addon Mosquitto
-  1883/tcp:
-    port: 1885
-    name: "MQTT"
+  1883/tcp: 1885
 
 
 init: false
