@@ -111,7 +111,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build ${{ matrix.addon }} add-on
-        if: steps.check.outputs.build_arch == 'true' #&& matrix.arch == 'aarch64'
+        #if: steps.check.outputs.build_arch == 'true' #&& matrix.arch == 'aarch64'
         uses: docker/build-push-action@v6
         with:
           context: ./${{ matrix.addon }}
@@ -128,7 +128,7 @@ jobs:
         #     ./${{ matrix.addon }}
 
       - name: Build ${{ matrix.addon }} add-on
-        if: steps.check.outputs.build_arch == 'true' #&& matrix.arch == 'amd64'
+        #if: steps.check.outputs.build_arch == 'true' #&& matrix.arch == 'amd64'
         uses: docker/build-push-action@v6
         with:
           context: ./${{ matrix.addon }}
