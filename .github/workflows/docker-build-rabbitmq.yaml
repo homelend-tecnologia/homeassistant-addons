@@ -11,11 +11,14 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-rabbitmq
-  APP_VERSION: "v1.0.12" # não esquecer de atualizar a versão no arquivo RabbitMQ/config.yaml também (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
+  APP_VERSION: "v1.0.13" # não esquecer de atualizar a versão no arquivo RabbitMQ/config.yaml também (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ linux/arm64, linux/amd64 ]
 
     permissions:
       contents: read
@@ -43,7 +46,7 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-        tags: type=raw,value=${{ env.APP_VERSION }}
+        tags: type=raw,value=${{ env.APP_VERSION }},type=platform,value=${{ matrix.platform }}
 
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v6
@@ -53,4 +56,4 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        platforms: linux/arm64,linux/amd64
+        platforms: ${{ matrix.platform }}
