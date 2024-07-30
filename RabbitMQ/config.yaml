@@ -43,7 +43,6 @@ ports:
   15672/tcp: 15672
   1883/tcp: 1883
 
-
 init: false
 startup: application
 boot: auto
