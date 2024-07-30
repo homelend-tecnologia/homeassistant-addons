@@ -1,5 +1,5 @@
 ---
-network:
+network2:
   56720/tcp: "AMQP port (default: 5672)"
   15672/tcp: "RabbitMQ Management port (default: 15672)"
   1883/tcp: "MQTT port (default: 1883)"
