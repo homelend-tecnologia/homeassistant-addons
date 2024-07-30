@@ -1,12 +1,8 @@
 # Registro de Alterações
 
-## [1.0.7] - 2024-07-29]
+## [1.0.11] - 2024-07-30]
 ### Mudanças
-* Portas configuráveis no Home Assistant
-
-## [1.0.6] - 2024-07-29]
-### Mudanças
-* Portas configuráveis no Home Assistant
+* Portas configuráveis nos ajustes do Addon
 
 ## [1.0.5] - 2024-07-29
 ### Mudanças
