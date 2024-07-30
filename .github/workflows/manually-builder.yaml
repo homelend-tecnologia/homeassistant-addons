@@ -46,7 +46,7 @@ jobs:
               for file in ${{ env.MONITORED_FILES }}; do
                   if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon/$file ]]; then
                     if [[ ! "${changed_addons[@]}" =~ $addon ]]; then
-                      changed_addons+=("\"${addon,,}\",");
+                      changed_addons+=("\"${addon}\",");
                     fi
                   fi
               done
@@ -110,7 +110,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build ${{ matrix.addon }} add-on
+      - name: Build ${{ matrix.addon,, }} add-on
         #if: steps.check.outputs.build_arch == 'true' #&& matrix.arch == 'aarch64'
         uses: docker/build-push-action@v6
         with:
