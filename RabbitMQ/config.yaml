@@ -36,6 +36,13 @@ panel_title: "RabbitMQ"
 #   mqtt_port:
 #     - int
 
+schema:
+  mqtt_port:
+    name: Porta MQTT
+    description: "Porta para conexão MQTT"
+    default: 1883
+    required: false
+    type: int
 
 
 #host_network: true
