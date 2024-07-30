@@ -1,6 +1,10 @@
 # Registro de Alterações
 
-## [1.0.11] - 2024-07-30]
+## [1.0.12] - 2024-07-30
+### Correções
+* Retirado a configuração do ingress_port
+
+## [1.0.11] - 2024-07-30
 ### Mudanças
 * Portas configuráveis nos ajustes do Addon
 

@@ -11,7 +11,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-rabbitmq
-  APP_VERSION: "v1.0.11" # não esquecer de atualizar a versão no arquivo RabbitMQ/config.yaml também (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
+  APP_VERSION: "v1.0.12" # não esquecer de atualizar a versão no arquivo RabbitMQ/config.yaml também (e dar commit) para que o Home Assistant atualize o addon automaticamente (se estiver instalado)
 
 jobs:
   build-and-push:
