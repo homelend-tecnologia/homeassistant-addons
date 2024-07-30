@@ -31,6 +31,9 @@ panel_title: "RabbitMQ"
 
 options:
   ingress_port: 15672
+schema:
+  ingress_port:
+    - int
 
 
 
