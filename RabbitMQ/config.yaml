@@ -39,7 +39,7 @@ ingress_entry: "/"
 
 schema:
   port_5672:
-    type: integer
+    type: int
     description: "Porta para conexão AMQP (default: 5672)"
 
 ports:
