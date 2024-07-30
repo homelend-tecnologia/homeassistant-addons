@@ -46,7 +46,7 @@ jobs:
               for file in ${{ env.MONITORED_FILES }}; do
                   if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon/$file ]]; then
                     if [[ ! "${changed_addons[@]}" =~ $addon ]]; then
-                      changed_addons+=("\"${addon}\",");
+                      changed_addons+=("\"${addon,,}\",");
                     fi
                   fi
               done
@@ -110,12 +110,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set lowercase variables
-        id: vars
-        run: |
-          echo "LOWERCASE_REPOSITORY=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
-          echo "LOWERCASE_ADDON=${{ matrix.addon,, }}" >> $GITHUB_ENV
-
       - name: Build ${{ matrix.addon }} add-on
         if: steps.check.outputs.build_arch == 'true' && matrix.arch == 'aarch64'
         uses: docker/build-push-action@v6
@@ -123,7 +117,7 @@ jobs:
           context: ./${{ matrix.addon }}
           file: ./${{ matrix.addon }}/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.LOWERCASE_REPOSITORY }}-${{ env.LOWERCASE_ADDON }}/aarch64
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.addon }}/aarch64
           platforms: linux/${{ matrix.arch }}
           build-args: ${{ env.BUILD_ARGS }}
         # run: |
@@ -140,6 +134,6 @@ jobs:
           context: ./${{ matrix.addon }}
           file: ./${{ matrix.addon }}/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.LOWERCASE_REPOSITORY }}-${{ env.LOWERCASE_ADDON }}/amd64
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.addon }}/amd64
           platforms: linux/${{ matrix.arch }}
           build-args: ${{ env.BUILD_ARGS }}
