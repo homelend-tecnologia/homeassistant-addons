@@ -81,9 +81,10 @@ jobs:
             echo "No add-ons found.";
           fi
 
-      - name: Debug output
+      - name: Debugging changed output
         run: |
-          echo "Changed: ${{ needs.init.outputs.changed }}"
+          echo "Changed value: ${{ steps.all_addons.outputs.changed }}"
+
 
 
 
