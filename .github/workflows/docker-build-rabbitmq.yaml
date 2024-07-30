@@ -41,12 +41,12 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Extract metadata for Docker Buildx
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.platform }}
-        tags: type=raw,value=${{ env.APP_VERSION }}
+    # - name: Extract metadata for Docker Buildx
+    #   id: meta
+    #   uses: docker/metadata-action@v5
+    #   with:
+    #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.platform }}
+    #     tags: type=raw,value=${{ env.APP_VERSION }}
 
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v6
@@ -54,6 +54,18 @@ jobs:
         context: ./RabbitMQ
         file: ./RabbitMQ/Dockerfile
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.platform }}:${{ env.APP_VERSION }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ matrix.platform }}
+        build-args: |
+          BUILDPLATFORM=${{ matrix.platform }}
+        outputs: type=image,name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.platform }},push=true
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Push to Index Repository
+      run: |
+        docker manifest create --amend \
+          ghcr.io/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }} \
+          ghcr.io/${{ env.IMAGE_NAME }}-${{ matrix.platform }}:${{ env.APP_VERSION }}
+        docker manifest push --purge ghcr.io/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
