@@ -115,7 +115,7 @@ jobs:
         run: echo "LOWER_ADDON=$(echo ${{ matrix.addon }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Build ${{ matrix.addon }} add-on
-        #if: steps.check.outputs.build_arch == 'true' #&& matrix.arch == 'aarch64'
+        if: matrix.arch == 'aarch64'
         uses: docker/build-push-action@v6
         with:
           context: ./${{ matrix.addon }}
@@ -126,8 +126,7 @@ jobs:
           build-args: ${{ env.BUILD_ARGS }}
 
       - name: Build ${{ matrix.addon }} add-on
-        #if: steps.check.outputs.build_arch == 'true' #&& matrix.arch == 'amd64'
-        if: false
+        if: matrix.arch == 'amd64'
         uses: docker/build-push-action@v6
         with:
           context: ./${{ matrix.addon }}
