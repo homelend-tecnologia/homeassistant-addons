@@ -114,24 +114,29 @@ jobs:
         id: convert_to_lower
         run: echo "LOWER_ADDON=$(echo ${{ matrix.addon }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
+      - name: Remove quotes from version
+        id: clean_version
+        run: echo "VERSION=$(echo ${{ steps.info.outputs.version }} | tr -d '\"')" >> $GITHUB_ENV
+
+
       - name: Build ${{ matrix.addon }} add-on
-        if: matrix.arch == 'aarch64'
+        #if: matrix.arch == 'aarch64'
         uses: docker/build-push-action@v6
         with:
           context: ./${{ matrix.addon }}
           file: ./${{ matrix.addon }}/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-aarch64:${{ steps.info.outputs.version }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-${{ matrix.arch }}:${{ env.VERSION }}
           platforms: linux/${{ matrix.arch }}
           build-args: ${{ env.BUILD_ARGS }}
 
-      - name: Build ${{ matrix.addon }} add-on
-        if: matrix.arch == 'amd64'
-        uses: docker/build-push-action@v6
-        with:
-          context: ./${{ matrix.addon }}
-          file: ./${{ matrix.addon }}/Dockerfile
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-amd64:${{ steps.info.outputs.version }}
-          platforms: linux/${{ matrix.arch }}
-          build-args: ${{ env.BUILD_ARGS }}
+      # - name: Build ${{ matrix.addon }} add-on
+      #   if: matrix.arch == 'amd64'
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: ./${{ matrix.addon }}
+      #     file: ./${{ matrix.addon }}/Dockerfile
+      #     push: true
+      #     tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-amd64:${{ env.VERSION }}
+      #     platforms: linux/${{ matrix.arch }}
+      #     build-args: ${{ env.BUILD_ARGS }}
