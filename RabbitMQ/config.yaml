@@ -38,9 +38,9 @@ ingress_port: 15672
 ingress_entry: "/"
 
 schema:
-  port_5672: int
+  5672/tcp: int
 descrition:
-  port_5672: "Porta de comunicação AMQP (default: 5672)"
+  5672/tcp: "Porta de comunicação AMQP (default: 5672)"
 
 ports:
   5672/tcp: 5672
