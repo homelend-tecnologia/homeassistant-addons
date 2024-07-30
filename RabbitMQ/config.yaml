@@ -47,8 +47,9 @@ startup: application
 boot: auto
 restart: always
 #image: "ghcr.io/homelend-tecnologia/homeassistant-addons-rabbitmq-{arch}"
-image: |
-  ghcr.io/homelend-tecnologia/homeassistant-addons-rabbitmq-linux-amd64:${{ version }}
-  ghcr.io/homelend-tecnologia/homeassistant-addons-rabbitmq-linux-arm64:${{ version }}
+image:
+  - ghcr.io/homelend-tecnologia/homeassistant-addons-rabbitmq-linux-amd64:${{ version }}
+  - ghcr.io/homelend-tecnologia/homeassistant-addons-rabbitmq-linux-arm64:${{ version }}
+
 
 #webui: "http://[HOST]:[PORT:8080]"
