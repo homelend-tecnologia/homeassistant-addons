@@ -121,7 +121,7 @@ jobs:
           context: ./${{ matrix.addon }}
           file: ./${{ matrix.addon }}/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-aarch64
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-aarch64:${{ steps.info.outputs.version }}
           platforms: linux/${{ matrix.arch }}
           build-args: ${{ env.BUILD_ARGS }}
 
@@ -132,6 +132,6 @@ jobs:
           context: ./${{ matrix.addon }}
           file: ./${{ matrix.addon }}/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-amd64
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-amd64:${{ steps.info.outputs.version }}
           platforms: linux/${{ matrix.arch }}
           build-args: ${{ env.BUILD_ARGS }}
