@@ -10,5 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)docker-build-rabbitmq.yaml" />
+    <None Include="$(MSBuildThisFileDirectory)manually-builder.yaml" />
   </ItemGroup>
 </Project>
