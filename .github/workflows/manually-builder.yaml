@@ -124,15 +124,10 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.LOWER_ADDON }}-aarch64
           platforms: linux/${{ matrix.arch }}
           build-args: ${{ env.BUILD_ARGS }}
-        # run: |
-        #   docker buildx build \
-        #     --platform linux/${{ matrix.arch }} \
-        #     --tag ${{ env.REGISTRY }}/homelend-tecnologia/homeassistant-addons-${{ matrix.addon }}/linux-${{ matrix.arch }} \
-        #     --file ./${{ matrix.addon }}/Dockerfile \
-        #     ./${{ matrix.addon }}
 
       - name: Build ${{ matrix.addon }} add-on
         #if: steps.check.outputs.build_arch == 'true' #&& matrix.arch == 'amd64'
+        if: false
         uses: docker/build-push-action@v6
         with:
           context: ./${{ matrix.addon }}
