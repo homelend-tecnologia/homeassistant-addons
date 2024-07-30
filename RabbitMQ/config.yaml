@@ -38,9 +38,9 @@ ingress_port: 15672
 ingress_entry: "/"
 
 schema:
-  5672/tcp: int(1024, 65535)
-  15672/tcp: int(1024, 65535)
-  1883/tcp: int(1024, 65535)
+  5672/tcp: int
+  15672/tcp: int
+  1883/tcp: int
 descrition:
   5672/tcp: "Porta de comunicação AMQP (default: 5672)"
   15672/tcp: "Porta de gerenciamento do RabbitMQ (default: 15672)"
