@@ -62,8 +62,8 @@ jobs:
           fi
 
       - name: Include all add-ons ## Uses only if you want to build all add-ons
-        if: 'true'                ## change to false if you want to build only changed add-ons
-        id: changed_addons
+        if: always()                
+        id: all_addons
         run: |
           declare -a changed_addons
           for addon in ${{ steps.addons.outputs.addons }}; do
