@@ -68,4 +68,8 @@ jobs:
         docker manifest create --amend \
           ghcr.io/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }} \
           ghcr.io/${{ env.IMAGE_NAME }}-${{ matrix.platform }}:${{ env.APP_VERSION }}
-        docker manifest push --purge ghcr.io/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }}
+        docker manifest annotate \
+          ghcr.io/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }} \
+          ghcr.io/${{ env.IMAGE_NAME }}-${{ matrix.platform }}:${{ env.APP_VERSION }} \
+          --os linux --arch ${{ matrix.platform == 'linux/amd64' && 'amd64' || 'arm64' }}
+        docker manifest push --purge ghcr.io/${{ env.IMAGE_NAME }}:${{ env.APP_VERSION }} 
