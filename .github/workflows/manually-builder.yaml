@@ -61,4 +61,22 @@ jobs:
             echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
           fi
 
+  build:
+    needs: init
+    runs-on: ubuntu-latest
+    if: needs.init.outputs.changed == 'true'
+    name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
+    strategy:
+      matrix:
+        addon: ${{ fromJson(needs.init.outputs.changed_addons) }}
+        arch: [ "aarch64", "amd64" ] ## ["aarch64", "amd64", "armhf", "armv7", "i386"]
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Get information
+        id: info
+        uses: home-assistant/actions/helpers/info@master ## External action - TODO: Fork this action and use the forked version
+        with:
+          path: "./${{ matrix.addon }}"
 
