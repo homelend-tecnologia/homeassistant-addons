@@ -29,20 +29,11 @@ panel_icon: mdi:home-assistant
 panel_admin: false
 panel_title: "RabbitMQ"
 
-# options:
-#   mqtt_port: 1883
-  
-# schema:
-#   mqtt_port:
-#     - int
+options:
+  debug: false
 
 schema:
-  mqtt_port:
-    name: Porta MQTT
-    description: "Porta para conexão MQTT"
-    default: 1883
-    required: false
-    type: int
+  debug: bool?
 
 
 #host_network: true
