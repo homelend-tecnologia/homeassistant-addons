@@ -38,7 +38,6 @@ jobs:
 
       - name: Get changed add-ons
         id: changed_addons
-        if: false    ## Change to true if you want to build only changed add-ons
         run: |
           declare -a changed_addons
           for addon in ${{ steps.addons.outputs.addons }}; do
@@ -61,25 +60,6 @@ jobs:
           else
             echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
           fi
-
-      - name: Include all add-ons ## Uses only if you want to build all add-ons
-        if: always()                
-        id: all_addons
-        run: |
-          declare -a changed_addons
-          for addon in ${{ steps.addons.outputs.addons }}; do
-            changed_addons+=("\"${addon}\",")
-          done
-
-          changed=$(echo ${changed_addons[@]} | rev | cut -c 2- | rev)
-          if [[ -n ${changed} ]]; then
-            echo "All add-ons included: $changed";
-            echo "changed=true" >> "$GITHUB_OUTPUT";
-            echo "addons=[$changed]" >> "$GITHUB_OUTPUT";
-          else
-            echo "No add-ons found.";
-          fi
-
 
   build:
     needs: init
