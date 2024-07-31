@@ -1,12 +1,14 @@
 name: Build .NET for ARM64
 
 on:
-  push:
-    branches:
-      - develop
-    paths:
-      - 'PocApi/**'
-      - '.github/workflows/dotnet-poc-builder.yaml'
+  workflow_dispatch:
+  
+  # push:
+  #   branches:
+  #     - develop
+  #   paths:
+  #     - 'PocApi/**'
+  #     - '.github/workflows/dotnet-poc-builder.yaml'
 
 env:
   REGISTRY: ghcr.io
