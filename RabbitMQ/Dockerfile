@@ -1,5 +1,6 @@
 # Imagem oficial do RabbitMQ com a interface de gerenciamento
-FROM --platform=$BUILDPLATFORM rabbitmq:3.13-management
+#FROM --platform=$BUILDPLATFORM rabbitmq:3.13-management
+FROM rabbitmq:3.13-management
 
 # Define a variável de ambiente para o RabbitMQ
 ENV RABBITMQ_DEFAULT_USER=admin
