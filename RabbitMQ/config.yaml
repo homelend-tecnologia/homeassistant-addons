@@ -1,7 +1,7 @@
 name: "Homelend RabbitMQ"
 slug: "homelend-rabbitmq"
 description: "Servidor RabbitMQ como Add-On do Home Assistant"
-version: 1.0.14
+version: 1.0.15
 url: "https://github.com/homelend-tecnologia/homeassistant-addons/tree/main/RabbitMQ"
 icon: icon.png
 arch:
@@ -46,6 +46,4 @@ init: false
 startup: application
 boot: auto
 restart: always
-# image: "ghcr.io/homelend-tecnologia/homeassistant-addons-rabbitmq"
-
-#webui: "http://[HOST]:[PORT:8080]"
+auto_update: true
