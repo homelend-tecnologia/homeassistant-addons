@@ -17,7 +17,7 @@ RUN dotnet restore "./PocApi.csproj"
 
 COPY . .
 
-WORKDIR "/src/PocApi"
+#WORKDIR "/src/PocApi"
 RUN dotnet build "./PocApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
