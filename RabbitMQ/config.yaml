@@ -49,5 +49,4 @@ restart: always
 # image: "ghcr.io/homelend-tecnologia/homeassistant-addons-rabbitmq"
 
 
-
 #webui: "http://[HOST]:[PORT:8080]"
