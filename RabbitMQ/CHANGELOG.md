@@ -1,5 +1,9 @@
 # Registro de Alterações
 
+## [1.0.14] - 2024-07-30
+### Mudanças
+* Configurado a porta do ingress
+
 ## [1.0.13] - 2024-07-30
 ### Mudanças
 * Criação de imagens separadas para cada arquitetura

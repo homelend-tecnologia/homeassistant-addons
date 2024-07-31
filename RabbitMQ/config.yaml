@@ -1,7 +1,7 @@
 name: "Homelend RabbitMQ"
 slug: "homelend-rabbitmq"
 description: "Servidor RabbitMQ como Add-On do Home Assistant"
-version: 1.0.13
+version: 1.0.14
 url: "https://github.com/homelend-tecnologia/homeassistant-addons/tree/main/RabbitMQ"
 icon: icon.png
 arch:
@@ -34,7 +34,7 @@ panel_title: "RabbitMQ"
 #host_network: true
 host_network: false
 ingress: true
-#ingress_port: 15672
+ingress_port: 15672
 ingress_entry: "/"
 
 ports:
