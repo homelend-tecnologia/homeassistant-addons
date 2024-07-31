@@ -1,7 +1,7 @@
 name: "Homelend RabbitMQ"
 slug: "homelend-rabbitmq"
 description: "Servidor RabbitMQ como Add-On do Home Assistant"
-version: 1.0.15
+version: 1.0.16
 url: "https://github.com/homelend-tecnologia/homeassistant-addons/tree/main/RabbitMQ"
 icon: icon.png
 arch:
@@ -21,7 +21,10 @@ image: "ghcr.io/homelend-tecnologia/homeassistant-addons-rabbitmq-{arch}"
 #   - backup:rw
 #   - addons:rw
 #   - all_addon_configs:rw
-  
+ 
+role:
+  - admin
+
 hassio_api: false
 hassio_role: default
 homeassistant_api: false
