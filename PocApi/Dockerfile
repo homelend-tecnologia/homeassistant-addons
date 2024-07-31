@@ -10,6 +10,9 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 RUN echo "Listing contents of /src/PocApi" && ls -la /src/PocApi && echo "After ls command"
+RUN ls -la / | tee /dev/stderr
+RUN ls -la /src | tee /dev/stderr
+RUN ls -la /src/PocApi | tee /dev/stderr
 
 COPY ["PocApi/PocApi.csproj", "PocApi/"]
 
