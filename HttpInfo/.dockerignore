@@ -1,0 +1,23 @@
+#*
+#!obj\Docker\publish\*
+#!obj\Docker\empty\
+
+# Ignorar diretórios e arquivos comuns desnecessários
+**/node_modules
+**/bin
+**/obj
+*.njsproj
+*.sln
+*.user
+*.vscode
+*.history
+*.log
+.DS_Store
+# Ignora o arquivo de configuração do Home Assistant
+config.yaml
+
+# Permitir arquivos e diretórios específicos necessários para a aplicação
+!package.json
+!package-lock.json
+#!/src
+#!/public
