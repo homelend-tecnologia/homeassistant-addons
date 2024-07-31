@@ -14,6 +14,9 @@ RUN echo "Listing contents of /src/PocApi" && ls -la /src/PocApi && echo "After 
 COPY ["PocApi/PocApi.csproj", "PocApi/"]
 
 RUN echo "Listing contents of /src/PocApi" && ls -la /src/PocApi && echo "After ls command"
+RUN ls -la / | tee /dev/stderr
+RUN ls -la /src | tee /dev/stderr
+RUN ls -la /src/PocApi | tee /dev/stderr
 
 RUN dotnet restore "./PocApi/PocApi.csproj"
 
