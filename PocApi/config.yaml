@@ -33,7 +33,7 @@ panel_title: "Poc Api"
 #host_network: true
 host_network: false
 ingress: true
-ingress_port: 8084
+ingress_port: 8080
 ingress_entry: "WeatherForecast/"
 
 ports:
