@@ -1,7 +1,7 @@
 name: "Poc Api"
 slug: "homelend-pocapi"
 description: "Poc Api dotnet container"
-version: 1.0.0
+version: 1.0.1
 url: "https://github.com/homelend-tecnologia/homeassistant-addons"
 arch:
   # - armhf
@@ -34,7 +34,7 @@ panel_title: "Poc Api"
 host_network: false
 ingress: true
 ingress_port: 8084
-ingress_entry: "/"
+ingress_entry: "WeatherForecast/"
 
 ports:
   8080/tcp: 8084
