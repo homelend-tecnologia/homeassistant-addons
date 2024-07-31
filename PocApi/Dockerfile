@@ -9,22 +9,19 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-RUN ls -la /src
-RUN ls -la /src/PocApi
+RUN echo "Listing contents of /src/PocApi" && ls -la /src/PocApi && echo "After ls command"
 
 COPY ["PocApi/PocApi.csproj", "PocApi/"]
 
-RUN ls -la /src
-RUN ls -la /src/PocApi
+RUN echo "Listing contents of /src/PocApi" && ls -la /src/PocApi && echo "After ls command"
+
 RUN dotnet restore "./PocApi/PocApi.csproj"
 
-RUN ls -la /src
-RUN ls -la /src/PocApi
+RUN echo "Listing contents of /src/PocApi" && ls -la /src/PocApi && echo "After ls command"
 
 COPY . .
 
-RUN ls -la /src
-RUN ls -la /src/PocApi
+RUN echo "Listing contents of /src/PocApi" && ls -la /src/PocApi && echo "After ls command"
 
 WORKDIR "/src/PocApi"
 RUN dotnet build "./PocApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
