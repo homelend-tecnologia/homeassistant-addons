@@ -1,5 +1,9 @@
 # Registro de Alterações
 
+## [1.0.15] - 2024-07-30
+### Mudanças
+* Deixando a configuração de atualização automática habilitada como padrão
+
 ## [1.0.14] - 2024-07-30
 ### Mudanças
 * Configurado a porta do ingress
