@@ -10,5 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)addons-builder.yaml" />
+    <None Include="$(MSBuildThisFileDirectory)dotnet-poc-builder.yaml" />
   </ItemGroup>
 </Project>
