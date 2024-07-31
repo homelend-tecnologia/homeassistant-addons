@@ -1,4 +1,5 @@
-FROM arm64v8/node:lts-alpine
+FROM node:lts-alpine
+#FROM arm64v8/node:lts-alpine
 #FROM --platform=$BUILDPLATFORM node:lts-alpine
 
 ENV HOME=/home/app
