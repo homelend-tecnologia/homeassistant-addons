@@ -1,0 +1,45 @@
+name: "Http Info"
+slug: "http-info"
+description: "Devolve um json com todos os dados de request e também as variáveis de ambiente"
+version: "v1.0.0"
+url: "https://github.com/homelend-tecnologia/homeassistant-addons"
+arch:
+  # - armhf
+  # - armv7
+  - aarch64
+  - amd64
+  # - i386
+image: "ghcr.io/homelend-tecnologia/homeassistant-addons-httpinfo-{arch}"
+map:
+  - share:rw
+  # - media:rw
+  # - homeassistant_config:rw
+  # - addon_config:rw
+  # - ssl:rw
+  # - backup:rw
+  # - addons:rw
+  # - all_addon_configs:rw
+  
+hassio_api: true
+hassio_role: admin
+homeassistant_api: true
+docker_api: true
+
+panel_icon: mdi:home-assistant
+panel_admin: true
+panel_title: "Http Info"
+
+#host_network: true
+host_network: false
+ingress: true
+ingress_port: 8083
+ingress_entry: "/"
+
+ports:
+  8083/tcp: 8083
+
+init: false
+startup: application
+boot: auto
+
+#webui: "http://[HOST]:[PORT:8080]"
