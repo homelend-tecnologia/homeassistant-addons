@@ -5,7 +5,7 @@ USER app
 WORKDIR /app
 EXPOSE 8080
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
@@ -13,7 +13,7 @@ WORKDIR /src
 #RUN dotnet restore "./PocApi/PocApi.csproj"
 
 COPY ["PocApi.csproj", "./"]
-RUN dotnet nuget locals all --clear
+#RUN dotnet nuget locals all --clear
 RUN dotnet restore "./PocApi.csproj" 
 #--verbosity detailed
 
@@ -24,7 +24,7 @@ RUN dotnet build "./PocApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./PocApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false --no-restore
+RUN dotnet publish "./PocApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
