@@ -28,6 +28,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "HttpInfo", "HttpInfo\HttpInfo.esproj", "{B4886E1F-7B5B-41EA-9B91-81B0110246FA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HttpInfo", "HttpInfo", "{A4F4DF79-72ED-4CA9-BDF3-4C2E7545B173}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POCs", "POCs", "{DD711AA0-0443-471F-BCF1-B8D132D4E1B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocApi", "PocApi\PocApi.csproj", "{F8EDACDA-3878-49DC-8BEC-0EC4D9A4D6F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +46,10 @@ Global
 		{B4886E1F-7B5B-41EA-9B91-81B0110246FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4886E1F-7B5B-41EA-9B91-81B0110246FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4886E1F-7B5B-41EA-9B91-81B0110246FA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F8EDACDA-3878-49DC-8BEC-0EC4D9A4D6F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8EDACDA-3878-49DC-8BEC-0EC4D9A4D6F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8EDACDA-3878-49DC-8BEC-0EC4D9A4D6F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8EDACDA-3878-49DC-8BEC-0EC4D9A4D6F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,6 +57,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{42109E44-D3E9-4F8A-8BBA-3EF640945D9F} = {3101A349-6FA1-400B-91BF-FA81564A58FF}
 		{F32BEF7A-A987-4F52-B687-1BB527C8F51B} = {F93ACCB4-3FCE-4220-8B14-0F6634B7DB46}
+		{B4886E1F-7B5B-41EA-9B91-81B0110246FA} = {A4F4DF79-72ED-4CA9-BDF3-4C2E7545B173}
+		{F8EDACDA-3878-49DC-8BEC-0EC4D9A4D6F8} = {DD711AA0-0443-471F-BCF1-B8D132D4E1B3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {41DE1BC8-F2C9-48C0-B155-D050F3E13500}
