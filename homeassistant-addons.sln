@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		.dockerignore = .dockerignore
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		git-sync-from-main-to-develop.bat = git-sync-from-main-to-develop.bat
 		README.md = README.md
 		repository.json = repository.json
 	EndProjectSection
