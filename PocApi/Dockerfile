@@ -14,7 +14,8 @@ WORKDIR /src
 
 COPY ["PocApi.csproj", "./"]
 RUN dotnet nuget locals all --clear
-RUN dotnet restore "./PocApi.csproj" --verbosity detailed
+RUN dotnet restore "./PocApi.csproj" 
+#--verbosity detailed
 
 COPY . .
 
