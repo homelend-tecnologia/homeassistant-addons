@@ -1,5 +1,11 @@
 # Registro de Alterações
 
+Todas as mudanças significativas deste projeto serão documentadas neste arquivo.
+
+## [1.0.17] - 2024-07-30
+### Mudanças
+* Adicionado a role `admin`, para que apenas usuários com essa role possam acessar o RabbitMQ
+
 ## [1.0.15] - 2024-07-30
 ### Mudanças
 * Deixando a configuração de atualização automática habilitada como padrão
