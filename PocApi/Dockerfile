@@ -27,7 +27,8 @@ RUN dotnet publish "./PocApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:
 FROM base AS final
 WORKDIR /app
 
-ENV ACCESS_TOKEN=${ACCESS_TOKEN}  # variável configurada no Home Assistant, na tela de ajustes do Add-on
+ENV ACCESS_TOKEN=${ACCESS_TOKEN}  
+# variável configurada no Home Assistant, na tela de ajustes do Add-on
 
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "PocApi.dll"]
