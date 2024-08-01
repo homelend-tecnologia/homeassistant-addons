@@ -1,6 +1,10 @@
 # Registro de Alterações
 Todas as mudanças significativas deste projeto serão documentadas neste arquivo.
 
+## [1.0.7] - 2024-08-01
+### Novidades
+* Implementação do endpoint de teste para listar todas as variáveis de ambiente
+
 ## [1.0.6] - 2024-08-01
 ### Novidades
 * Implementação do endpoint de listagem de devices e seus respectivos estados

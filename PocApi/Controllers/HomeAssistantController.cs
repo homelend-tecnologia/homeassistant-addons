@@ -6,6 +6,7 @@ using PocApi.Models.HomeAssistant.State;
 using System.Text.Json;
 
 namespace PocApi.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 public class HomeAssistantController : ControllerBase
