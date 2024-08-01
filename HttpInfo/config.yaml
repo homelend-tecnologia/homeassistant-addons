@@ -72,4 +72,7 @@ boot: auto
 auto_update: true
 restart: always
 
+auth_api: true
+
+
 #webui: "http://[HOST]:[PORT:8080]"
