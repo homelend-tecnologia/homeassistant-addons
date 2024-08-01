@@ -18,4 +18,10 @@ COPY . .
 
 EXPOSE $PORT
 
-CMD ["npm", "start"]
+# Usar um script de inicialização personalizado
+COPY run.sh /run.sh
+RUN chmod +x /run.sh
+
+CMD ["/run.sh"]
+
+# CMD ["npm", "start"]
