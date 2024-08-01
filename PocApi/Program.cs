@@ -2,8 +2,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddHealthChecks();
+
+builder.Services.AddHttpClient();
+builder.Services.AddHttpClient("homeassistant", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("http://homeassistant.local:8123");
+});
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -18,6 +26,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
+app.MapHealthChecks("/healthz");
 app.MapControllers();
 
 app.Run();
