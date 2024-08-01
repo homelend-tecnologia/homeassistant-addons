@@ -1,5 +1,3 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
@@ -28,5 +26,8 @@ RUN dotnet publish "./PocApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:
 
 FROM base AS final
 WORKDIR /app
+
+ENV ACCESS_TOKEN=${ACCESS_TOKEN}  # variável configurada no Home Assistant, na tela de ajustes do Add-on
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "PocApi.dll"]

@@ -15,8 +15,6 @@ Siga as instruções abaixo para instalar o add-on PocApi no Home Assistant.
 8. Volte para a loja de add-ons e instale o PocApi.
 9. Configure o add-on e inicie-o.
 
-### Configuração
-
 ### Health Check
 Verifique se o add-on está em execução e se o serviço está disponível.
 
@@ -25,4 +23,8 @@ Verifique se o add-on está em execução e se o serviço está disponível.
 #### Retorno http:
 **200** - Execução normal
 
+### Device States
+Listagem de devices e seus respectivos estados.
+
+```http://<base_url>:<port>/api/homeassistant/device/states```
 

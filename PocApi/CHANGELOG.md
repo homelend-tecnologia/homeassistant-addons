@@ -1,6 +1,14 @@
 # Registro de Alterações
 Todas as mudanças significativas deste projeto serão documentadas neste arquivo.
 
+## [1.0.6] - 2024-08-01
+### Novidades
+* Implementação do endpoint de listagem de devices e seus respectivos estados
+
+## [1.0.5] - 2024-08-01
+### Novidades
+* Implementação da listagem de devices e seus respectivos status
+
 ## [1.0.4] - 2024-08-01
 ### Novidades
 * Implementação do Health Check
