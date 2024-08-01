@@ -1,7 +1,7 @@
 name: "Http Info"
 slug: "http-info"
 description: "Devolve um json com todos os dados de request e também as variáveis de ambiente"
-version: 1.0.4
+version: 1.0.5
 url: "https://github.com/homelend-tecnologia/homeassistant-addons"
 arch:
   # - armhf
@@ -40,6 +40,28 @@ ingress_port: 8083
 
 ports:
   8083/tcp: 8083
+
+ports_description:
+  8083/tcp: "Porta para acesso ao addon"
+
+options:
+  logins: []
+  require_ssl: false
+  customize:
+    active: false
+    folder: "customize"
+
+schema:
+  logins:
+    - username: str
+      password: str
+      outro_nome: str
+      inteiro: int
+  require_ssl: bool
+  customize:
+    active: bool
+    folder: str
+
 
 init: false
 startup: application
