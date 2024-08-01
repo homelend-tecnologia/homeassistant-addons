@@ -9,7 +9,7 @@ builder.Services.AddHealthChecks();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("homeassistant", httpClient =>
 {
-    httpClient.BaseAddress = new Uri(configuration.GetValue("BASE_URL","http://homeassistant.local:8123")!);
+    httpClient.BaseAddress = new Uri(configuration.GetValue("BASE_URL", "http://supervisor/core")!);
     string accessToken = configuration.GetValue("ACCESS_TOKEN", string.Empty)!;
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 });
