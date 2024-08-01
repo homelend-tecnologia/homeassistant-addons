@@ -24,8 +24,9 @@ map:
 role:
   - admin
   
-env_vars:
-  - name: "ACCESS_TOKEN"
+environment:
+  - "ACCESS_TOKEN": "<access_token>"
+  - "BASE_URL": "http://supervisor/core"
 
 options:
   ACCESS_TOKEN: "<access_token>"
