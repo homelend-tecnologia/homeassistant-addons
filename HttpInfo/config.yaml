@@ -1,7 +1,7 @@
 name: "Http Info"
 slug: "http-info"
 description: "Devolve um json com todos os dados de request e também as variáveis de ambiente"
-version: 1.0.5
+version: 1.0.6
 url: "https://github.com/homelend-tecnologia/homeassistant-addons"
 arch:
   # - armhf
