@@ -13,7 +13,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("homeassistant", httpClient =>
 {
     httpClient.BaseAddress = new Uri(configuration.GetValue("base_url", "http://supervisor/core")!);
-    string accessToken = configuration.GetValue("access_token", string.Empty)!;
+    string accessToken = configuration.GetValue("HASSIO_TOKEN", string.Empty)!;
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 });
 
@@ -49,6 +49,20 @@ app.MapGet("/config", (HttpContext context) =>
         configDict[item.Key] = item.Value;
     }
     return Results.Json(configDict);
+});
+
+// Endpoint para listar todos os arquivos no contêiner
+app.MapGet("/files", (HttpContext context) =>
+{
+    var rootDirectory = "/"; // Caminho raiz do contêiner
+    var fileList = Directory.GetFiles(rootDirectory, "*.*", SearchOption.AllDirectories)
+                            .Select(f => new
+                            {
+                                Path = f
+                            })
+                            .OrderBy(f => f.Path)
+                            .ToList();
+    return Results.Json(fileList);
 });
 
 app.Run();
