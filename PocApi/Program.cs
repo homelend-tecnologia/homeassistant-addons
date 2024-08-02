@@ -41,4 +41,14 @@ app.UseAuthorization();
 app.MapHealthChecks("/healthz");
 app.MapControllers();
 
+app.MapGet("/config", (HttpContext context) =>
+{
+    var configDict = new Dictionary<string, string?>();
+    foreach (var item in configuration.AsEnumerable())
+    {
+        configDict[item.Key] = item.Value;
+    }
+    return Results.Json(configDict);
+});
+
 app.Run();
