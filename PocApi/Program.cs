@@ -52,9 +52,9 @@ app.MapGet("/config", (HttpContext context) =>
 });
 
 // Endpoint para listar todos os arquivos no contêiner
-app.MapGet("/files", async (HttpContext context) =>
+app.MapGet("/files/data", async (HttpContext context) =>
 {
-    var rootDirectory = "/"; // Caminho raiz do contêiner
+    var rootDirectory = "/data"; // Caminho raiz do contêiner
     var fileList = new List<string>();
 
     try
