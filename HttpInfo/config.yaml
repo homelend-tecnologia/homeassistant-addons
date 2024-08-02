@@ -64,7 +64,7 @@ schema:
 
 environment:
   require_ssl: ${require_ssl}
-  ATIVO: {{$customize.active}}
+  ATIVO: ${customize.active}
 
 init: false
 startup: application
