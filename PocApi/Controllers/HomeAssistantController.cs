@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -77,9 +78,10 @@ public class HomeAssistantController : ControllerBase
         var content = await response.Content.ReadAsStringAsync();
         var state = JsonSerializer.Deserialize<StateObject>(content);
 
-        var retState = new
+        var retState = new Models.Response.EntityState
         {
-            state = state?.State switch
+            EntityId = deviceId,
+            State = state?.State switch
             {
                 "on" or "off" => state.State,
                 _ => "unknown"
@@ -88,4 +90,41 @@ public class HomeAssistantController : ControllerBase
 
         return Results.Json(retState, _jsonOptions);
     }
+
+    [HttpPost]
+    [Route("device/light/states")]
+    public async Task<IResult> GetLightStatesAsync(Models.Request.EntityIdList entities)
+    {
+        var lightStates = new List<Models.Response.EntityState>();
+
+        foreach (var entity in entities.EntitiesId)
+        {
+            var response = await GetLightStateAsync(entity);
+
+            if (response is JsonHttpResult<Models.Response.EntityState> jsonResult)
+            {
+                if (jsonResult.Value is Models.Response.EntityState lightState)
+                {
+                    lightStates.Add(lightState);
+                }
+            }
+        }
+
+        return Results.Json(lightStates, _jsonOptions);
+    }
+
+    [HttpPost]
+    [Route("device/light/{deviceId}/turn_{newState}")]
+    public async Task<IResult> TurnLightAsync(string deviceId, string newState)
+    {
+        var response = await _httpClient.PostAsync($"services/light/turn_{newState}", new StringContent($"{{\"entity_id\": \"light.{deviceId}\"}}"));
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return Results.Problem("Failed to turn light on/off", statusCode: (int)response.StatusCode);
+        }
+
+        return Results.Ok();
+    }
+
 }

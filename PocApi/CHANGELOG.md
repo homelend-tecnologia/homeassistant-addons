@@ -1,5 +1,10 @@
 # Registro de Alterações
 
+## [1.0.16] - 2024-08-02
+### Novidades
+* Endpoint para estados de vários devices
+* Endpoint para ligar/desligar lâmpadas
+
 ## [1.0.15] - 2024-08-02
 ### Novidades
 * Implementação dos endpoints de estado para devices específicos
