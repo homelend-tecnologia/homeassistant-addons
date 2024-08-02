@@ -1,5 +1,12 @@
 # Registro de Alterações
-Todas as mudanças significativas deste projeto serão documentadas neste arquivo.
+
+## [1.0.15] - 2024-08-02
+### Novidades
+* Implementação dos endpoints de estado para devices específicos
+
+## [1.0.14] - 2024-08-01
+### Novidades
+* Implementação da autenticação interna do Home Assistant
 
 ## [1.0.7] - 2024-08-01
 ### Novidades

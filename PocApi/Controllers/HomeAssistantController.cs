@@ -17,7 +17,7 @@ public class HomeAssistantController : ControllerBase
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly HttpClient _httpClient;
 
-    public HomeAssistantController(ILogger<HomeAssistantController> logger, 
+    public HomeAssistantController(ILogger<HomeAssistantController> logger,
         IOptions<JsonOptions> jsonOptions,
         IHttpClientFactory httpClientFactory)
     {
@@ -44,5 +44,48 @@ public class HomeAssistantController : ControllerBase
         var states = JsonSerializer.Deserialize<List<StateObject>>(content);
 
         return Results.Json(states, _jsonOptions);
+    }
+
+    [HttpGet]
+    [Route("device/{deviceId}/state")]
+    public async Task<IResult> GetDeviceStateAsync(string deviceId)
+    {
+        var response = await _httpClient.GetAsync($"states/{deviceId}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return Results.Problem("Failed to get device state from Home Assistant", statusCode: (int)response.StatusCode);
+        }
+
+        var content = await response.Content.ReadAsStringAsync();
+        var state = JsonSerializer.Deserialize<StateObject>(content);
+
+        return Results.Json(state, _jsonOptions);
+    }
+
+    [HttpGet]
+    [Route("device/light/{deviceId}/state")]
+    public async Task<IResult> GetLightStateAsync(string deviceId)
+    {
+        var response = await _httpClient.GetAsync($"states/light.{deviceId}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return Results.Problem("Failed to get light state from Home Assistant", statusCode: (int)response.StatusCode);
+        }
+
+        var content = await response.Content.ReadAsStringAsync();
+        var state = JsonSerializer.Deserialize<StateObject>(content);
+
+        var retState = new
+        {
+            state = state?.State switch
+            {
+                "on" or "off" => state.State,
+                _ => "unknown"
+            }
+        };
+
+        return Results.Json(retState, _jsonOptions);
     }
 }
