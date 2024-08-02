@@ -12,7 +12,7 @@ builder.Services.AddHealthChecks();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("homeassistant", httpClient =>
 {
-    httpClient.BaseAddress = new Uri(configuration.GetValue("base_url", "http://supervisor/core")!);
+    httpClient.BaseAddress = new Uri(configuration.GetValue("base_url", "http://supervisor/core/api/")!);
     string accessToken = configuration.GetValue("HASSIO_TOKEN", string.Empty)!;
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 });
