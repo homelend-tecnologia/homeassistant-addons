@@ -63,8 +63,8 @@ schema:
     folder: str
 
 environment:
-  require_ssl: $require_ssl
-  ATIVO: $customize.active
+  require_ssl: ${require_ssl}
+  ATIVO: {{$customize.active}}
 
 init: false
 startup: application
