@@ -52,17 +52,50 @@ app.MapGet("/config", (HttpContext context) =>
 });
 
 // Endpoint para listar todos os arquivos no contêiner
-app.MapGet("/files", (HttpContext context) =>
+app.MapGet("/files", async (HttpContext context) =>
 {
     var rootDirectory = "/"; // Caminho raiz do contêiner
-    var fileList = Directory.GetFiles(rootDirectory, "*.*", SearchOption.AllDirectories)
-                            .Select(f => new
-                            {
-                                Path = f
-                            })
-                            .OrderBy(f => f.Path)
-                            .ToList();
-    return Results.Json(fileList);
+    var fileList = new List<string>();
+
+    try
+    {
+        // Recursivamente obter todos os arquivos a partir do diretório raiz
+        await Task.Run(() => GetFilesRecursively(rootDirectory, fileList));
+        // Ordenar a lista de arquivos
+        var sortedFileList = fileList.OrderBy(f => f).Select(f => new { Path = f }).ToList();
+        return Results.Json(sortedFileList);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(detail: ex.Message, statusCode: 500);
+    }
 });
 
 app.Run();
+
+
+
+void GetFilesRecursively(string directory, List<string> fileList)
+{
+    try
+    {
+        foreach (var file in Directory.GetFiles(directory))
+        {
+            fileList.Add(file);
+        }
+
+        foreach (var subDirectory in Directory.GetDirectories(directory))
+        {
+            GetFilesRecursively(subDirectory, fileList);
+        }
+    }
+    catch (UnauthorizedAccessException)
+    {
+        // Ignorar diretórios aos quais não temos acesso
+    }
+    catch (Exception ex)
+    {
+        // Para fins de depuração, você pode registrar o erro aqui
+        Console.WriteLine($"Erro ao acessar o diretório {directory}: {ex.Message}");
+    }
+}

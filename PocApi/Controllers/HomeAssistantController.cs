@@ -33,7 +33,7 @@ public class HomeAssistantController : ControllerBase
     [Route("device/states")]
     public async Task<IResult> GetDeviceStatesAsync()
     {
-        var response = await _httpClient.GetAsync("/api/states");
+        var response = await _httpClient.GetAsync("api/states");
 
         if (!response.IsSuccessStatusCode)
         {
