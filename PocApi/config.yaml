@@ -1,7 +1,7 @@
 name: "Poc Api"
 slug: "homelend-pocapi"
 description: "Poc Api dotnet container"
-version: 1.0.7
+version: 1.0.8
 url: "https://github.com/homelend-tecnologia/homeassistant-addons"
 arch:
   # - armhf
@@ -24,13 +24,13 @@ map:
 role:
   - admin
   
-environment:
-  - "ACCESS_TOKEN": "<access_token>"
-  - "BASE_URL": "http://supervisor/core"
-
 options:
-  ACCESS_TOKEN: "<access_token>"
-  BASE_URL: "http://supervisor/core"
+  access_token: "<access_token>"
+  base_url: "http://supervisor/core"
+
+schema:
+  access_token: str
+  base_url: str
 
 hassio_api: true
 hassio_role: admin
