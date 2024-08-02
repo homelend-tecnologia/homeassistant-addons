@@ -62,7 +62,7 @@ schema:
     active: bool
     folder: str
 
-enviroment:
+environment:
   require_ssl: $require_ssl
   ATIVO: $customize.active
 
