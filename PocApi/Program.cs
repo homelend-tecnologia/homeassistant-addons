@@ -2,6 +2,9 @@ using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+
+configuration.AddJsonFile("/app/options.json", optional: true, reloadOnChange: true);
+
 // Add services to the container.
 
 builder.Services.AddHealthChecks();
@@ -9,8 +12,8 @@ builder.Services.AddHealthChecks();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("homeassistant", httpClient =>
 {
-    httpClient.BaseAddress = new Uri(configuration.GetValue("BASE_URL", "http://supervisor/core")!);
-    string accessToken = configuration.GetValue("ACCESS_TOKEN", string.Empty)!;
+    httpClient.BaseAddress = new Uri(configuration.GetValue("base_url", "http://supervisor/core")!);
+    string accessToken = configuration.GetValue("access_token", string.Empty)!;
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 });
 
