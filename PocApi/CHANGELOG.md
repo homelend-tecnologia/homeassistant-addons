@@ -1,5 +1,11 @@
 # Registro de Alterações
 
+## [1.0.17] - 2024-08-05
+### Mudanças
+* Implementação da configuração CORS para permitir requisições de qualquer origem
+### Novidades
+* Implementação do endpoint de teste para WebSockets: `<ip>:8084/ws`
+
 ## [1.0.16] - 2024-08-02
 ### Novidades
 * Endpoint para estados de vários devices

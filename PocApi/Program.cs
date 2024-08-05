@@ -9,6 +9,15 @@ configuration.AddJsonFile("/app/options.json", optional: true, reloadOnChange: t
 
 builder.Services.AddHealthChecks();
 
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("homeassistant", httpClient =>
 {
@@ -37,6 +46,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+app.UseCors();
+
+app.UseWebSockets(options: new WebSocketOptions()
+{
+    KeepAliveInterval = TimeSpan.FromSeconds(120)
+});
 
 app.MapHealthChecks("/healthz");
 app.MapControllers();
