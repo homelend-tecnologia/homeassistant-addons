@@ -1,8 +1,13 @@
 # Registro de Alterações
 
+## [1.0.19] - 2024-08-09
+### Novidades
+* Implementação dos endpoins de estado para sensores de movimento e presença
+* Implementação do endpointa para histórico dos sensores de temperatura e umidade
+
 ## [1.0.18] - 2024-08-09
 ### Novidades
-* Implementação dos endpoins de estado para sensores
+* Implementação dos endpoins de estado para sensores de temperatura e umidade
 
 ## [1.0.17] - 2024-08-05
 ### Mudanças

@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace PocApi.Models.Response;
+namespace PocApi.Models.HomeAssistant.History;
 
-public class EntityState
+public class SensorData
 {
     [JsonPropertyName("entity_id")]
     public string? EntityId { get; set; }
@@ -10,4 +10,8 @@ public class EntityState
     public string? State { get; set; }
     [JsonPropertyName("last_changed")]
     public DateTimeOffset? LastChanged { get; set; }
+    [JsonPropertyName("last_reported")]
+    public DateTimeOffset? LastReported { get; set; }
+    [JsonPropertyName("last_updated")]
+    public DateTimeOffset? LastUpdated { get; set; }
 }
