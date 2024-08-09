@@ -1,5 +1,9 @@
 # Registro de Alterações
 
+## [1.0.18] - 2024-08-09
+### Novidades
+* Implementação dos endpoins de estado para sensores
+
 ## [1.0.17] - 2024-08-05
 ### Mudanças
 * Implementação da configuração CORS para permitir requisições de qualquer origem

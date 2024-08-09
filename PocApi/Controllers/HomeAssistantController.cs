@@ -113,6 +113,51 @@ public class HomeAssistantController : ControllerBase
         return Results.Json(lightStates, _jsonOptions);
     }
 
+    [HttpGet]
+    [Route("device/sensor/{deviceId}/state")]
+    public async Task<IResult> GetSensorStateAsync(string deviceId)
+    {
+        var response = await _httpClient.GetAsync($"states/sensor.{deviceId}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return Results.Problem("Failed to get sensor state from Home Assistant", statusCode: (int)response.StatusCode);
+        }
+
+        var content = await response.Content.ReadAsStringAsync();
+        var state = JsonSerializer.Deserialize<StateObject>(content);
+
+        var retState = new Models.Response.EntityState
+        {
+            EntityId = deviceId,
+            State = state?.State ?? "unknown"
+        };
+
+        return Results.Json(retState, _jsonOptions);
+    }
+
+    [HttpPost]
+    [Route("device/sensor/states")]
+    public async Task<IResult> GetSensorStatesAsync(Models.Request.EntityIdList entities)
+    {
+        var sensorStates = new List<Models.Response.EntityState>();
+
+        foreach (var entity in entities.EntitiesId)
+        {
+            var response = await GetSensorStateAsync(entity);
+
+            if (response is JsonHttpResult<Models.Response.EntityState> jsonResult)
+            {
+                if (jsonResult.Value is Models.Response.EntityState sensorState)
+                {
+                    sensorStates.Add(sensorState);
+                }
+            }
+        }
+
+        return Results.Json(sensorStates, _jsonOptions);
+    }
+
     [HttpPost]
     [Route("device/light/{deviceId}/turn_{newState}")]
     public async Task<IResult> TurnLightAsync(string deviceId, string newState)
