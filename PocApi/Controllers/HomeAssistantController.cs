@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
+using PocApi.Models.HomeAssistant.History;
 using PocApi.Models.HomeAssistant.State;
 
 using System.Text.Json;
@@ -170,6 +171,25 @@ public class HomeAssistantController : ControllerBase
         }
 
         return Results.Ok();
+    }
+
+    [HttpGet]
+    [Route("device/sensor/{deviceId}/history")]
+    public async Task<IResult> GetSensorStateHistoryAsync(string deviceId)
+    {
+        var response = await _httpClient.GetAsync($"history/period?no_attributes=&minimal_response&significant_changes_only&filter_entity_id=sensor.{deviceId}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return Results.Problem("Failed to get sensor state history from Home Assistant", statusCode: (int)response.StatusCode);
+        }
+
+        var content = await response.Content.ReadAsStringAsync();
+        var stateGroupList = JsonSerializer.Deserialize<List<List<SensorData>>>(content);
+
+        var retStateList = stateGroupList?.FirstOrDefault();
+
+        return Results.Json(retStateList, _jsonOptions);
     }
 
 }
