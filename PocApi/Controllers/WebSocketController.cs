@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
+using System.Net;
 using System.Net.WebSockets;
 
 namespace PocApi.Controllers;
@@ -18,7 +19,7 @@ public class WebSocketController : ControllerBase
         }
         else
         {
-            HttpContext.Response.StatusCode = 400;
+            HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
         }
     }
 
