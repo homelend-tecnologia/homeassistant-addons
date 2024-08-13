@@ -190,7 +190,7 @@ public class HomeAssistantController : ControllerBase
 
         foreach (var entity in entities.EntitiesId)
         {
-            var response = await GetSensorStateAsync(entity);
+            var response = await GetBinarySensorStateAsync(entity);
 
             if (response is JsonHttpResult<Models.Response.EntityState> jsonResult)
             {
