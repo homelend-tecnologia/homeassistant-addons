@@ -1,5 +1,9 @@
 # Registro de Alterações
 
+## [1.0.20] - 2024-08-13
+### Correções
+* Endpoint para binary_sensors corrigido
+
 ## [1.0.19] - 2024-08-09
 ### Novidades
 * Implementação dos endpoins de estado para sensores de movimento e presença
