@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using PocApi.Models.HomeAssistant.History;
 using PocApi.Models.HomeAssistant.State;
 
+using System.Globalization;
 using System.Text.Json;
 
 namespace PocApi.Controllers;
@@ -235,6 +236,90 @@ public class HomeAssistantController : ControllerBase
         var retStateList = stateGroupList?.FirstOrDefault();
 
         return Results.Json(retStateList, _jsonOptions);
+    }
+
+    [HttpGet]
+    [Route("device/energy-consumption/history")]
+    public async Task<IResult> GetEnergyConsumptionHistoryAsync(
+        [FromQuery(Name = "device")] string deviceId = "consumo_de_energia_total",
+        [FromQuery(Name = "timeZoneOffset")] TimeSpan? timespan = null,
+        [FromQuery(Name = "groupby")] string groupBy = "hour",
+        [FromQuery(Name = "start")] DateTimeOffset? startDateTime = null,
+        [FromQuery(Name = "end")] DateTimeOffset? endDateTime = null
+        )
+    {
+        TimeSpan timeZoneOffset = timespan ?? TimeSpan.Zero;
+        groupBy = groupBy.Trim().ToLowerInvariant();
+
+        var startTime = ObterMeiaNoiteLocalEmUTC(timeZoneOffset, startDateTime);
+        var endTime = endDateTime?.ToUniversalTime() ?? DateTimeOffset.UtcNow;
+
+        var response = await _httpClient.GetAsync($"history/period/{startTime:O}?no_attributes=&minimal_response&significant_changes_only&end_time={endTime:u}&filter_entity_id=sensor.{deviceId}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return Results.Problem("Failed to get energy consumption history from Home Assistant", statusCode: (int)response.StatusCode);
+        }
+
+        var content = await response.Content.ReadAsStringAsync();
+        var stateGroupList = JsonSerializer.Deserialize<List<List<SensorData>>>(content);
+
+        var deviceStateList = stateGroupList?.FirstOrDefault();
+
+        decimal? lastValue = null;
+
+        var groupedStates = deviceStateList?
+            .GroupBy(c => groupBy switch
+                    {
+                        "minute" => new { c.LastChanged?.Year, c.LastChanged?.Month, c.LastChanged?.Day, c.LastChanged?.Hour, c.LastChanged?.Minute },
+                        "hour" => new { c.LastChanged?.Year, c.LastChanged?.Month, c.LastChanged?.Day, c.LastChanged?.Hour },
+                        "day" => new { c.LastChanged?.Year, c.LastChanged?.Month, c.LastChanged?.Day },
+                        "month" => new { c.LastChanged?.Year, c.LastChanged?.Month },
+                        "year" => new { c.LastChanged?.Year },
+                        _ => (new { c.LastChanged?.Year, c.LastChanged?.Month, c.LastChanged?.Day, c.LastChanged?.Hour }) as object,
+                    })
+            .Select(g =>
+            {
+                dynamic key = g.Key;
+                var periodStart = (groupBy switch
+                {
+                    "minute" => new DateTimeOffset(key.Year, key.Month, key.Day, key.Hour, key.Minute, 0, TimeSpan.Zero),
+                    "hour" => new DateTimeOffset(key.Year, key.Month, key.Day, key.Hour, 0, 0, TimeSpan.Zero),
+                    "day" => new DateTimeOffset(key.Year, key.Month, key.Day, 0, 0, 0, TimeSpan.Zero),
+                    "month" => new DateTimeOffset(key.Year, key.Month, 1, 0, 0, 0, TimeSpan.Zero),
+                    "year" => new DateTimeOffset(key.Year, 1, 1, 0, 0, 0, TimeSpan.Zero),
+                    _ => new DateTimeOffset(key.Year, key.Month, key.Day, key.Hour, 0, 0, TimeSpan.Zero),
+                }).ToUniversalTime();
+
+
+                var firstValue = lastValue ?? decimal.Parse(g.First().State ?? string.Empty, CultureInfo.InvariantCulture);
+                var lastValueInGroup = decimal.Parse(g.Last().State ?? string.Empty, CultureInfo.InvariantCulture);
+
+                // Atualiza o lastValue para o próximo grupo
+                lastValue = lastValueInGroup;
+
+                return new
+                {
+                    Period = periodStart,
+                    TotalConsumption = Math.Round(lastValueInGroup - firstValue, 2)
+                };
+            }).ToList();
+
+
+
+
+        return Results.Json(groupedStates, _jsonOptions);
+    }
+
+    private static DateTimeOffset ObterMeiaNoiteLocalEmUTC(TimeSpan timeZoneOffset, DateTimeOffset? dateTime = null)
+    {
+        var utcNow = dateTime?.UtcDateTime ?? DateTimeOffset.UtcNow;
+        var localDateTime = utcNow.Add(timeZoneOffset);
+        var midnightLocal = new DateTimeOffset(localDateTime.Year, localDateTime.Month, localDateTime.Day, 0, 0, 0, timeZoneOffset);
+
+        var midnightUTC = midnightLocal.ToUniversalTime();
+
+        return midnightUTC;
     }
 
 }
