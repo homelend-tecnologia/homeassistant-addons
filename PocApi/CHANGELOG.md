@@ -1,5 +1,9 @@
 # Registro de Alterações
 
+## [1.0.21] - 2024-08-15
+### Novidades
+* Implementação do endpoint para histórico de consumo de energia
+
 ## [1.0.20] - 2024-08-13
 ### Correções
 * Endpoint para binary_sensors corrigido
