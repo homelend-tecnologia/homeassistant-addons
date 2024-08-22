@@ -107,16 +107,19 @@ app.MapGet("/options", async (IHttpClientFactory httpClientFactory, HttpContext 
     try
     {
         var response = await httpClient.GetAsync(supervisorApiUrl);
+        return Results.Json(response);
+        /*
         response.EnsureSuccessStatusCode(); // Lança uma exceção se a resposta não for bem-sucedida
 
         var optionsJson = await response.Content.ReadAsStringAsync();
         //var options = JsonSerializer.Deserialize<Dictionary<string, object>>(optionsJson);
 
         return Results.Json(optionsJson);
+        */
     }
-    catch
+    catch (Exception ex)
     {
-        return Results.Problem("Erro ao acessar a API do Supervisor", statusCode: 500);
+        return Results.Json(ex);
     }
 });
 
