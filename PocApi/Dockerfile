@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER root
+USER app
 WORKDIR /app
 EXPOSE 8080
 
@@ -29,10 +29,8 @@ WORKDIR /app
 
 COPY --from=publish /app/publish .
 
-ENTRYPOINT ["dotnet", "PocApi.dll"]
+#ENTRYPOINT ["dotnet", "PocApi.dll"]
 
-# Cria o script de inicialização diretamente na imagem
-#RUN echo '#!/bin/sh\n\n# Altera as permissões do arquivo de configuração (se existir)\nif [ -f /data/options.json ]; then\n    chmod 644 /data/options.json\nfi\n\n# Executa o comando original do seu aplicativo\nexec dotnet PocApi.dll' > /app/entrypoint.sh
-#RUN chmod +x /app/entrypoint.sh
-#
-#ENTRYPOINT ["/app/entrypoint.sh"]
+# permissão root para o entrypoint poder copiar o arquivo de configuração e rodar o dotnet
+RUN chmod +x /app/entrypoint.sh
+ENTRYPOINT ["/app/entrypoint.sh"]
