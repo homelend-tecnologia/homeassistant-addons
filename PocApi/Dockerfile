@@ -29,7 +29,10 @@ WORKDIR /app
 
 COPY --from=publish /app/publish .
 
-# Concede permissão de leitura para todos os usuários
-RUN chmod 644 /data/options.json  
+#ENTRYPOINT ["dotnet", "PocApi.dll"]
 
-ENTRYPOINT ["dotnet", "PocApi.dll"]
+# Cria o script de inicialização diretamente na imagem
+RUN echo '#!/bin/sh\n\n# Altera as permissões do arquivo de configuração (se existir)\nif [ -f /data/options.json ]; then\n    chmod 644 /data/options.json\nfi\n\n# Executa o comando original do seu aplicativo\nexec dotnet PocApi.dll' > /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+ENTRYPOINT ["/app/entrypoint.sh"]
