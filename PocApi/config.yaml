@@ -35,12 +35,12 @@ options:
 
 schema:
   ACCESS_TOKEN: str
-  BASE_URL: str
+  BASE_URL: url
   INFLUXDB_HOST: str
   INFLUXDB_PORT: int
   INFLUXDB_DATABASE: str
   INFLUXDB_USERNAME: str
-  INFLUXDB_PASSWORD: secret
+  INFLUXDB_PASSWORD: password
 
 hassio_api: true
 hassio_role: admin
