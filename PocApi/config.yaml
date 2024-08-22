@@ -1,7 +1,7 @@
 name: "Poc Api"
 slug: "homelend-pocapi"
 description: "Poc Api dotnet container"
-version: 1.0.35
+version: 1.0.36
 url: "https://github.com/homelend-tecnologia/homeassistant-addons"
 arch:
   # - armhf
@@ -15,7 +15,7 @@ map:
   - share:rw
   # - media:rw
   # - homeassistant_config:rw
-  - addon_config:rw
+  # - addon_config:rw
   # - ssl:rw
   # - backup:rw
   # - addons:rw
@@ -25,22 +25,22 @@ role:
   - admin
   
 options:
-  access_token: "<access_token>"
-  base_url: "http://supervisor/core"
-  influxdb_host: "influxdb"
-  influxdb_port: 8086
-  influxdb_database: "homeassistant"
-  influxdb_username: "homeassistant"
-  influxdb_password: "homeassistant"
+  ACCESS_TOKEN: "<access_token>"
+  BASE_URL: "http://supervisor/core"
+  INFLUXDB_HOST: "a0d7b954_influxdb"
+  INFLUXDB_PORT: 8086
+  INFLUXDB_DATABASE: "ha"
+  INFLUXDB_USERNAME: "homeassistant"
+  INFLUXDB_PASSWORD: "senha-influxdb"
 
 schema:
-  access_token: str
-  base_url: str
-  influxdb_host: str
-  influxdb_port: int
-  influxdb_database: str
-  influxdb_username: str
-  influxdb_password: str
+  ACCESS_TOKEN: str
+  BASE_URL: str
+  INFLUXDB_HOST: str
+  INFLUXDB_PORT: int
+  INFLUXDB_DATABASE: str
+  INFLUXDB_USERNAME: str
+  INFLUXDB_PASSWORD: secret
 
 hassio_api: true
 hassio_role: admin
