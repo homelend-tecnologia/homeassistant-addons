@@ -1,4 +1,3 @@
-using InfluxDB.Client;
 using InfluxDB.Client.Flux;
 
 using System.Net.Http.Headers;
@@ -12,7 +11,8 @@ configuration.AddJsonFile("/app/options.json", optional: true, reloadOnChange: t
 
 builder.Services.AddHealthChecks();
 
-builder.Services.AddCors(options => {
+builder.Services.AddCors(options =>
+{
     options.AddDefaultPolicy(builder =>
     {
         builder.AllowAnyOrigin()
@@ -95,6 +95,29 @@ app.MapGet("/config", (HttpContext context) =>
         configDict[item.Key] = item.Value;
     }
     return Results.Json(configDict);
+});
+
+app.MapGet("/options", async (IHttpClientFactory httpClientFactory, HttpContext context) =>
+{
+    string addonSlug = configuration.GetValue("HOSTNAME", string.Empty) ?? string.Empty;
+    string supervisorApiUrl = $"/addons/{addonSlug}/options"; // caminho relativo
+
+    var httpClient = httpClientFactory.CreateClient("homeassistant");
+
+    try
+    {
+        var response = await httpClient.GetAsync(supervisorApiUrl);
+        response.EnsureSuccessStatusCode(); // Lança uma exceção se a resposta não for bem-sucedida
+
+        var optionsJson = await response.Content.ReadAsStringAsync();
+        //var options = JsonSerializer.Deserialize<Dictionary<string, object>>(optionsJson);
+
+        return Results.Json(optionsJson);
+    }
+    catch
+    {
+        return Results.Problem("Erro ao acessar a API do Supervisor", statusCode: 500);
+    }
 });
 
 // Endpoint para listar todos os arquivos no contêiner
