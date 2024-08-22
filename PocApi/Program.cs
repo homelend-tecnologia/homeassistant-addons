@@ -150,11 +150,43 @@ app.MapGet("/files/data", async (HttpContext context) =>
     }
 });
 
+app.MapGet("/files/app", async (HttpContext context) =>
+{
+    var rootDirectory = "/app"; // Caminho raiz do contêiner
+    var fileList = new List<string>();
+
+    try
+    {
+        // Recursivamente obter todos os arquivos a partir do diretório raiz
+        await Task.Run(() => GetFilesRecursively(rootDirectory, fileList));
+        // Ordenar a lista de arquivos
+        var sortedFileList = fileList.OrderBy(f => f).Select(f => new { Path = f }).ToList();
+        return Results.Json(sortedFileList);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(detail: ex.Message, statusCode: 500);
+    }
+});
+
 // Endpoint para obter um arquivo específico
 app.MapGet("/files/data/{*path}", (HttpContext context) =>
 {
     var path = context.Request.RouteValues["path"] as string;
     var fullPath = Path.Combine("/data", path!);
+
+    if (!File.Exists(fullPath))
+    {
+        return Results.NotFound();
+    }
+
+    var fileStream = File.OpenRead(fullPath);
+    return Results.File(fileStream, "application/octet-stream");
+});
+
+app.MapGet("/files/options", (HttpContext context) =>
+{
+    var fullPath = Path.Combine("/app", "options.json");
 
     if (!File.Exists(fullPath))
     {
