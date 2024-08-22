@@ -100,7 +100,7 @@ app.MapGet("/config", (HttpContext context) =>
 app.MapGet("/options", async (IHttpClientFactory httpClientFactory, HttpContext context) =>
 {
     string addonSlug = configuration.GetValue("HOSTNAME", string.Empty) ?? string.Empty;
-    string supervisorApiUrl = $"/addons/{addonSlug}/options"; // caminho relativo
+    string supervisorApiUrl = $"/addons/{addonSlug}/options/config"; // caminho relativo
 
     var httpClient = httpClientFactory.CreateClient("homeassistant");
 
