@@ -1,3 +1,6 @@
+using InfluxDB.Client;
+using InfluxDB.Client.Flux;
+
 using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +20,33 @@ builder.Services.AddCors(options => {
             .AllowAnyHeader();
     });
 });
+
+
+builder.Services.AddSingleton<IFluxClient>(options =>
+{
+    string url = configuration.GetValue("INFLUXDB_URL", "http://localhost:8086") ?? string.Empty;
+    string username = configuration.GetValue("INFLUXDB_USERNAME", string.Empty) ?? string.Empty;
+    string password = configuration.GetValue("INFLUXDB_PASSWORD", string.Empty) ?? string.Empty;
+    var database = configuration.GetValue("INFLUXDB_DATABASE", string.Empty) ?? string.Empty;
+
+    var connectionOptions = new FluxConnectionOptions(url, username, password.ToCharArray());
+    return new FluxClient(connectionOptions);
+
+});
+
+/*
+ * For InfluxDB 2.x
+ * 
+builder.Services.AddSingleton<IInfluxDBClient>(options =>
+{
+    var url = configuration.GetValue("INFLUXDB_URL", "http://localhost:8086");
+    var username = configuration.GetValue("INFLUXDB_USERNAME", string.Empty);
+    var password = configuration.GetValue("INFLUXDB_PASSWORD", string.Empty);
+    var database = configuration.GetValue("INFLUXDB_DATABASE", string.Empty);
+
+    return new InfluxDBClient(url,username, password, database, string.Empty);
+});
+*/
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("homeassistant", httpClient =>
@@ -85,6 +115,21 @@ app.MapGet("/files/data", async (HttpContext context) =>
     {
         return Results.Problem(detail: ex.Message, statusCode: 500);
     }
+});
+
+// Endpoint para obter um arquivo específico
+app.MapGet("/files/data/{*path}", (HttpContext context) =>
+{
+    var path = context.Request.RouteValues["path"] as string;
+    var fullPath = Path.Combine("/data", path!);
+
+    if (!File.Exists(fullPath))
+    {
+        return Results.NotFound();
+    }
+
+    var fileStream = File.OpenRead(fullPath);
+    return Results.File(fileStream, "application/octet-stream");
 });
 
 app.Run();
