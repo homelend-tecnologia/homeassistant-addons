@@ -1,5 +1,10 @@
 # Registro de Alterações
 
+## [1.0.22] - 2024-08-22
+### Novidades
+* Implementação do endpoint para histórico de devices através do InfluxDB
+* Implementação de endpoint para verificação do arquivo /data/options.json
+
 ## [1.0.21] - 2024-08-15
 ### Novidades
 * Implementação do endpoint para histórico de consumo de energia

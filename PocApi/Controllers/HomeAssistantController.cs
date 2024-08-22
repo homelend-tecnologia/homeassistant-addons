@@ -1,3 +1,6 @@
+using InfluxDB.Client;
+using InfluxDB.Client.Flux;
+
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -6,6 +9,7 @@ using PocApi.Models.HomeAssistant.History;
 using PocApi.Models.HomeAssistant.State;
 
 using System.Globalization;
+using System.Text;
 using System.Text.Json;
 
 namespace PocApi.Controllers;
@@ -19,15 +23,18 @@ public class HomeAssistantController : ControllerBase
     private readonly JsonSerializerOptions _jsonOptions;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly HttpClient _httpClient;
+    private readonly IFluxClient _fluxClient;
 
     public HomeAssistantController(ILogger<HomeAssistantController> logger,
         IOptions<JsonOptions> jsonOptions,
-        IHttpClientFactory httpClientFactory)
+        IHttpClientFactory httpClientFactory,
+        IFluxClient fluxClient)
     {
         _logger = logger;
         _jsonOptions = jsonOptions.Value.JsonSerializerOptions;
         _httpClientFactory = httpClientFactory;
         _httpClient = _httpClientFactory.CreateClient("homeassistant");
+        _fluxClient = fluxClient;
 
         _logger.LogInformation("HomeAssistantController created");
     }
@@ -320,6 +327,59 @@ public class HomeAssistantController : ControllerBase
         var midnightUTC = midnightLocal.ToUniversalTime();
 
         return midnightUTC;
+    }
+
+    [HttpGet]
+    [Route("influx")]
+    public async Task<IResult> GetInfluxDataAsync()
+    {
+
+        string query = @"
+            base_query = from(bucket: ""ha"")
+              |> range(start: -24h)
+              |> filter(fn: (r) => r[""_measurement""] == ""°C"")
+              |> filter(fn: (r) => r[""_field""] == ""value"")
+              |> filter(fn: (r) => r[""entity_id""] == ""temperatura_media_interna"")
+            tmin = base_query 
+              |> aggregateWindow(every:  1h, fn: min, createEmpty: false)
+              |> keep(columns: [""_time"", ""_value""]) 
+              |> movingAverage(n: 3)
+              |> rename(columns: {_value: ""min""})
+            tmax = base_query 
+              |> aggregateWindow(every: 1h, fn: max, createEmpty: false)
+              |> keep(columns: [""_time"", ""_value""]) 
+              |> movingAverage(n: 3)
+              |> rename(columns: {_value: ""max""})
+            tmean = base_query 
+              |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)
+              |> keep(columns: [""_time"", ""_value""]) 
+              |> movingAverage(n: 3)
+              |> rename(columns: {_value: ""mean""})
+
+            tminmax = join(tables: {tmin: tmin, tmax: tmax}, on: [""_time""])
+            join(tables: {tminmax: tminmax, tmean: tmean}, on: [""_time""])
+            ";
+
+        var tables = await _fluxClient.QueryAsync(query);
+
+        // Lista para armazenar os resultados formatados
+        var formattedResults = new List<dynamic>();
+
+        foreach (var table in tables)
+        {
+            foreach (var row in table.Records)
+            {
+                formattedResults.Add(new
+                {
+                    time = row.GetTime().ToString(),
+                    min = row.GetValueByKey("min"),
+                    max = row.GetValueByKey("max"),
+                    mean = row.GetValueByKey("mean")
+                });
+            }
+        }
+
+        return Results.Ok(formattedResults);
     }
 
 }
