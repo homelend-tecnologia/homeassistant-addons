@@ -55,6 +55,12 @@ builder.Services.AddHttpClient("homeassistant", httpClient =>
     string accessToken = configuration.GetValue("HASSIO_TOKEN", string.Empty)!;
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 });
+builder.Services.AddHttpClient("supervisor", httpClient =>
+{
+    httpClient.BaseAddress = new Uri(configuration.GetValue("base_url", "http://supervisor/")!);
+    string accessToken = configuration.GetValue("SUPERVISOR_TOKEN", string.Empty)!;
+    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+});
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -102,7 +108,7 @@ app.MapGet("/options", async (IHttpClientFactory httpClientFactory, HttpContext 
     string addonSlug = configuration.GetValue("HOSTNAME", string.Empty) ?? string.Empty;
     string supervisorApiUrl = $"/addons/{addonSlug}/options/config"; // caminho relativo
 
-    var httpClient = httpClientFactory.CreateClient("homeassistant");
+    var httpClient = httpClientFactory.CreateClient("supervisor");
 
     try
     {
