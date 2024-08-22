@@ -28,4 +28,8 @@ FROM base AS final
 WORKDIR /app
 
 COPY --from=publish /app/publish .
+
+# Concede permissão de leitura para todos os usuários
+RUN chmod 644 /data/options.json  
+
 ENTRYPOINT ["dotnet", "PocApi.dll"]
