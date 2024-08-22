@@ -13,13 +13,13 @@ image: "ghcr.io/homelend-tecnologia/homeassistant-addons-pocapi-{arch}"
 
 map:
   - share:rw
-#   - media:rw
-#   - homeassistant_config:rw
+  - media:rw
+  - homeassistant_config:rw
   - addon_config:rw
-#   - ssl:rw
-#   - backup:rw
-#   - addons:rw
-#   - all_addon_configs:rw
+  - ssl:rw
+  - backup:rw
+  - addons:rw
+  - all_addon_configs:rw
 
 role:
   - admin
