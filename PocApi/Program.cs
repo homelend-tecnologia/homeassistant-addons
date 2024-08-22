@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-configuration.AddJsonFile("/app/options.json", optional: true, reloadOnChange: true);
+configuration.AddJsonFile("/data/options.json", optional: true, reloadOnChange: true);
 
 // Add services to the container.
 
@@ -114,15 +114,12 @@ app.MapGet("/options", async (IHttpClientFactory httpClientFactory, HttpContext 
     try
     {
         var response = await httpClient.GetAsync(supervisorApiUrl);
-        return Results.Json(response);
-        /*
         response.EnsureSuccessStatusCode(); // Lança uma exceção se a resposta não for bem-sucedida
 
         var optionsJson = await response.Content.ReadAsStringAsync();
-        //var options = JsonSerializer.Deserialize<Dictionary<string, object>>(optionsJson);
+        var options = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(optionsJson);
 
         return Results.Json(optionsJson);
-        */
     }
     catch (Exception ex)
     {
@@ -174,19 +171,6 @@ app.MapGet("/files/data/{*path}", (HttpContext context) =>
 {
     var path = context.Request.RouteValues["path"] as string;
     var fullPath = Path.Combine("/data", path!);
-
-    if (!File.Exists(fullPath))
-    {
-        return Results.NotFound();
-    }
-
-    var fileStream = File.OpenRead(fullPath);
-    return Results.File(fileStream, "application/octet-stream");
-});
-
-app.MapGet("/files/options", (HttpContext context) =>
-{
-    var fullPath = Path.Combine("/app", "options.json");
 
     if (!File.Exists(fullPath))
     {
