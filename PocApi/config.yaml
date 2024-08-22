@@ -1,7 +1,7 @@
 name: "Poc Api"
 slug: "homelend-pocapi"
 description: "Poc Api dotnet container"
-version: 1.0.39
+version: 1.0.40
 url: "https://github.com/homelend-tecnologia/homeassistant-addons"
 arch:
   # - armhf
@@ -25,7 +25,7 @@ role:
   - admin
   
 options:
-  BASE_URL: "http://supervisor/core"
+  BASE_URL: "http://supervisor/core/api/"
   INFLUXDB_URL: "http://a0d7b954_influxdb:8086"
   INFLUXDB_DATABASE: "ha"
   INFLUXDB_USERNAME: "homeassistant"
