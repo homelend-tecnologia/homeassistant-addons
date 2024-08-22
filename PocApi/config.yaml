@@ -1,7 +1,7 @@
 name: "Poc Api"
 slug: "homelend-pocapi"
 description: "Poc Api dotnet container"
-version: 1.0.26
+version: 1.0.27
 url: "https://github.com/homelend-tecnologia/homeassistant-addons"
 arch:
   # - armhf
@@ -15,7 +15,7 @@ map:
   - share:rw
 #   - media:rw
 #   - homeassistant_config:rw
-#   - addon_config:rw
+  - addon_config:rw
 #   - ssl:rw
 #   - backup:rw
 #   - addons:rw
