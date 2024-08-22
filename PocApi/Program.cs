@@ -51,13 +51,13 @@ builder.Services.AddSingleton<IInfluxDBClient>(options =>
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient("homeassistant", httpClient =>
 {
-    httpClient.BaseAddress = new Uri(configuration.GetValue("base_url", "http://supervisor/core/api/")!);
+    httpClient.BaseAddress = new Uri(configuration.GetValue("BASE_URL", "http://supervisor/core/api/")!);
     string accessToken = configuration.GetValue("HASSIO_TOKEN", string.Empty)!;
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 });
 builder.Services.AddHttpClient("supervisor", httpClient =>
 {
-    httpClient.BaseAddress = new Uri(configuration.GetValue("base_url", "http://supervisor/")!);
+    httpClient.BaseAddress = new Uri(configuration.GetValue("BASE_URL", "http://supervisor/")!);
     string accessToken = configuration.GetValue("SUPERVISOR_TOKEN", string.Empty)!;
     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 });
