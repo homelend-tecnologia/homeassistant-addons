@@ -1,4 +1,3 @@
-using InfluxDB.Client;
 using InfluxDB.Client.Flux;
 
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -9,7 +8,6 @@ using PocApi.Models.HomeAssistant.History;
 using PocApi.Models.HomeAssistant.State;
 
 using System.Globalization;
-using System.Text;
 using System.Text.Json;
 
 namespace PocApi.Controllers;
