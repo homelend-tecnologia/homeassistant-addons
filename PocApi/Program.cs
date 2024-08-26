@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddSingleton<IFluxClient>(options =>
+builder.Services.AddScoped<IFluxClient>(options =>
 {
     string url = configuration.GetValue("INFLUXDB_URL", "http://localhost:8086") ?? string.Empty;
     string username = configuration.GetValue("INFLUXDB_USERNAME", string.Empty) ?? string.Empty;
