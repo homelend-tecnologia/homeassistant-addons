@@ -110,11 +110,12 @@ public class HistoryController : ControllerBase
 
 
     [HttpGet]
-    [Route("temperature/mean/{deviceId:alpha}")]
+    [Route("temperature/mean/{deviceId:required}")]
     public async Task<IResult> GetTemperatureMeanByDeviceIdAsync(
         [FromRoute] string deviceId,
         [FromQuery] DateTimeOffset? start,
         [FromQuery] DateTimeOffset? stop,
+        [FromQuery] int? movingAverage = 1,
         [FromQuery] string interval = "1h"
         )
     {
@@ -130,17 +131,17 @@ public class HistoryController : ControllerBase
             tmin = base_query 
                 |> aggregateWindow(every: {interval}, fn: min, createEmpty: true)
                 |> keep(columns: [""_time"", ""_value""]) 
-                |> movingAverage(n: 3)
+                |> movingAverage(n: {movingAverage})
                 |> rename(columns: {{_value: ""min""}})
             tmax = base_query 
                 |> aggregateWindow(every: {interval}, fn: max, createEmpty: true)
                 |> keep(columns: [""_time"", ""_value""]) 
-                |> movingAverage(n: 3)
+                |> movingAverage(n: {movingAverage})
                 |> rename(columns: {{_value: ""max""}})
             tmean = base_query 
                 |> aggregateWindow(every: {interval}, fn: mean, createEmpty: true)
                 |> keep(columns: [""_time"", ""_value""]) 
-                |> movingAverage(n: 3)
+                |> movingAverage(n: {movingAverage})
                 |> rename(columns: {{_value: ""mean""}})
 
             tminmax = join(tables: {{tmin: tmin, tmax: tmax}}, on: [""_time""])
